@@ -1,0 +1,12 @@
+{
+  "core": {
+    "askingPassword": {
+      "requirePasswordToOpen": "암호를 입력해주세요.",
+      "submit": "확인"
+    },
+    "wrongPassword": {
+      "tryAgain": "암호가 일치하지 않습니다. 다시 시도해주세요.",
+      "submit": "확인"
+    }
+  }
+}

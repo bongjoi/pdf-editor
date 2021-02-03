@@ -7,5 +7,5 @@ export function usePrevRef(input) {
     ref.current = input;
   }, [input]);
 
-  return ref;
+  return ref.current;
 }

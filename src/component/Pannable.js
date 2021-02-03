@@ -29,8 +29,7 @@ function Pannable(props) {
     ...divProps
   } = props;
   const [state, dispatch] = useReducer(reducer, initialPannableState);
-  const prevStateRef = usePrevRef(state);
-  const prevState = prevStateRef.current;
+  const prevState = usePrevRef(state);
   const elemRef = useRef(null);
   const responseRef = useRef({});
 
