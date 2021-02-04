@@ -5,6 +5,7 @@ import React, {
   useEffect,
   createRef
 } from 'react';
+import PageLayer from '../layers/PageLayer';
 import ThemeContext from '../theme/ThemeContext';
 import getFileExt from '../utils/fileExt';
 import { SpecialZoomLevel } from '../SpecialZoomLevel';
@@ -179,14 +180,7 @@ const Inner = ({
       rotation,
       scale
     });
-  }, [
-    setViewerState,
-    viewerState.file,
-    pageWidth,
-    pageHeight,
-    rotation,
-    scale
-  ]);
+  }, [scale]);
 
   const getPluginMethods = () => ({
     getPageElement,
@@ -217,6 +211,149 @@ const Inner = ({
       });
     };
   }, []);
+
+  useEffect(() => {
+    onDocumentLoad({ doc });
+    plugins.forEach((plugin) => {
+      plugin.onDocumentLoad && plugin.onDocumentLoad({ doc });
+    });
+    if (initialPage) {
+      jumpToPage(initialPage);
+    }
+  }, []);
+
+  useEffect(() => {
+    onPageChange({ currentPage, doc });
+    setViewerState({
+      file: viewerState.file,
+      pageIndex: currentPage,
+      pageWidth,
+      pageHeight,
+      rotation,
+      scale
+    });
+  }, [currentPage]);
+
+  useEffect(() => {
+    if (defaultScale) {
+      zoom(defaultScale);
+    }
+  }, []);
+
+  const pageVisibilityChanged = (pageIndex, ratio) => {
+    pageVisibility[pageIndex] = ratio;
+    const maxRatioPage = pageVisibility.reduce(
+      (maxIndex, item, index, array) => {
+        return item > array[maxIndex] ? index : maxIndex;
+      },
+      0
+    );
+    setCurrentPage(maxRatioPage);
+  };
+
+  const executeNamedAction = (action) => {
+    const previousPage = currentPage - 1;
+    const nextPage = currentPage + 1;
+    switch (action) {
+      case 'FirstPage':
+        jumpToPage(0);
+        break;
+      case 'LastPage':
+        jumpToPage(numPages - 1);
+        break;
+      case 'NextPage':
+        nextPage < numPages && jumpToPage(nextPage);
+        break;
+      case 'PrevPage':
+        previousPage >= 0 && jumpToPage(previousPage);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const renderViewer = () => {
+    let slot = {
+      attrs: {
+        ref: containerRef,
+        style: {
+          height: '100%'
+        }
+      },
+      children: <></>,
+      subSlot: {
+        attrs: {
+          ref: pagesRef,
+          style: {
+            height: '100%',
+            overflow: 'auto',
+            position: 'relative'
+          }
+        },
+        children: (
+          <>
+            {Array(numPages)
+              .fill(0)
+              .map((_, index) => {
+                return (
+                  <div
+                    className={`${theme.prefixClass}-inner-page`}
+                    key={`pagelayer-${index}`}
+                    ref={(ref) => {
+                      pageRefs[index].current = ref;
+                    }}
+                  >
+                    <PageLayer
+                      currentPage={currentPage}
+                      doc={doc}
+                      width={pageWidth}
+                      height={pageHeight}
+                      pageIndex={index}
+                      plugins={plugins}
+                      renderPage={renderPage}
+                      rotation={rotation}
+                      scale={scale}
+                      onPageVisibilityChanged={pageVisibilityChanged}
+                    />
+                  </div>
+                );
+              })}
+          </>
+        )
+      }
+    };
+
+    plugins.forEach((plugin) => {
+      if (plugin.renderViewer) {
+        slot = plugin.renderViewer({
+          containerRef,
+          doc,
+          pageWidth,
+          pageHeight,
+          rotation,
+          slot,
+          jumpToPage,
+          openFile,
+          rotate,
+          zoom
+        });
+      }
+    });
+
+    return slot;
+  };
+
+  const renderSlot = (slot) => (
+    <div
+      {...slot.attrs}
+      style={slot.attrs && slot.attrs.style ? slot.attrs.style : {}}
+    >
+      {slot.children}
+      {slot.subSlot && renderSlot(slot.subSlot)}
+    </div>
+  );
+
+  return renderSlot(renderViewer());
 };
 
 export default Inner;

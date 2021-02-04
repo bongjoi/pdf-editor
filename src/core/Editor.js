@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import DocumentLoader from './loader/DocumentLoader';
 import LocalizationProvider from './localization/LocalizationProvider';
 import ThemeProvider from './theme/ThemeProvider';
+import PageSizeCalculator from './layouts/PageSizeCalculator';
+import Inner from './layouts/Inner';
 import { usePrevRef } from '../hooks/usePrevRef';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 
