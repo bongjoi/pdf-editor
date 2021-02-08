@@ -1,8 +1,31 @@
 import { useMemo } from 'react';
+import styled from 'styled-components/macro';
 import Sidebar from './Sidebar';
 import { createStore } from '../core';
 import { ThumbnailPlugin } from '../thumbnail';
 import { ToolbarPlugin } from '../toolbar';
+
+const DefaultLayoutContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  height: 100%;
+`;
+const DefaultLayoutToolbar = styled.div`
+  background-color: rgba(238, 238, 238);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 4px;
+`;
+const DefaultLayoutMain = styled.div`
+  display: flex;
+  flex-grow: 1;
+  overflow: hidden;
+`;
+const DefaultLayoutBody = styled.div`
+  flex: 1;
+  overflow: auto;
+`;
 
 const DefaultLayoutPlugin = (props) => {
   const store = useMemo(() => createStore({ currentTab: 0 }), []);
@@ -46,26 +69,26 @@ const DefaultLayoutPlugin = (props) => {
           : {};
 
       slot.children = (
-        <div className="pdf-editor-default-layout-container">
-          <div className="pdf-editor-default-layout-toolbar">
+        <DefaultLayoutContainer>
+          <DefaultLayoutToolbar>
             {props && props.renderToolbar ? (
               props.renderToolbar(Toolbar)
             ) : (
               <Toolbar />
             )}
-          </div>
-          <div className="pdf-editor-default-layout-main">
+          </DefaultLayoutToolbar>
+          <DefaultLayoutMain>
             <Sidebar
               store={store}
               thumbnailTabContent={<Thumbnails />}
               tabs={sidebarTabs}
             />
-            <div className="pdf-editor-default-layout-body" {...mergeSubSlot}>
+            <DefaultLayoutBody {...mergeSubSlot}>
               {slot.subSlot.children}
-            </div>
-          </div>
+            </DefaultLayoutBody>
+          </DefaultLayoutMain>
           {slot.children}
-        </div>
+        </DefaultLayoutContainer>
       );
 
       slot.subSlot.attrs = {};

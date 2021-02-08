@@ -1,20 +1,38 @@
-import React, { useContext, createRef, useRef } from 'react';
-import PdfJs from 'pdfjs-dist';
-import ThemeContext from '../theme/ThemeContext';
-import LayerRenderStatus from '../types/LayerRenderStatus';
+import React, { createRef, useRef } from 'react';
+import styled from 'styled-components/macro';
 import WithScale from './WithScale';
+import PdfJs from '../vendors/PdfJs';
+import LayerRenderStatus from '../types/LayerRenderStatus';
+
+const TextLayerBlock = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  line-height: 1;
+  .text {
+    position: absolute;
+    color: transparent;
+    opacity: 0.2;
+    transform-origin: 0% 0%;
+    white-space: pre;
+    cursor: text;
+    &::selection {
+      color: transparent;
+      background: rgb(0, 0, 255, 0.5);
+    }
+  }
+`;
 
 const TextLayer = ({ page, pageIndex, plugins, rotation, scale }) => {
-  const theme = useContext(ThemeContext);
   const containerRef = createRef();
   const renderTask = useRef();
 
   const empty = () => {
     const containerElement = containerRef.current;
     if (!containerElement) return;
-    const spans = containerElement.querySelectorAll(
-      `span.${theme.prefixClass}-text`
-    );
+    const spans = containerElement.querySelectorAll('span.text');
     const numSpans = spans.length;
     for (let i = 0; i < numSpans; i++) {
       const span = spans[i];
@@ -55,7 +73,7 @@ const TextLayer = ({ page, pageIndex, plugins, rotation, scale }) => {
           const numSpans = spans.length;
           for (let i = 0; i < numSpans; i++) {
             const span = spans[i];
-            span.classList.add(`${theme.prefixClass}-text`);
+            span.classList.add('text');
           }
           plugins.forEach((plugin) => {
             if (plugin.onTextLayerRender) {
@@ -75,7 +93,7 @@ const TextLayer = ({ page, pageIndex, plugins, rotation, scale }) => {
 
   return (
     <WithScale callback={renderText} rotation={rotation} scale={scale}>
-      <div className={`${theme.prefixClass}-text-layer`} ref={containerRef} />
+      <TextLayerBlock ref={containerRef} />
     </WithScale>
   );
 };

@@ -1,10 +1,17 @@
-import React, { useContext, useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
+import styled from 'styled-components/macro';
 import Spinner from '../components/Spinner';
-import ThemeContext from '../theme/ThemeContext';
-import { decrease } from '../zoom/zoomingLevel';
+// import { decrease } from '../zoom/zoomingLevel';
+
+const PageSizeCalculatorBlock = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
 
 const PageSizeCalculator = ({ doc, render }) => {
-  const theme = useContext(ThemeContext);
   const pagesRef = useRef(null);
   const [pageSize, setPageSize] = useState({
     pageWidth: 0,
@@ -21,13 +28,14 @@ const PageSizeCalculator = ({ doc, render }) => {
       const pagesElement = pagesRef.current;
       if (!pagesElement) return;
 
-      const scaled = (pagesElement.clientWidth - 2 * 50) / w;
-      const scale = decrease(Math.max(1, scaled));
+      // const scaled = (pagesElement.clientWidth - 2 * 50) / w;
+      // const scale = decrease(Math.max(1, scaled));
 
       setPageSize({
         pageWidth: w,
         pageHeight: h,
-        scale
+        // scale
+        scale: 1
       });
     });
   }, [doc]);
@@ -35,9 +43,9 @@ const PageSizeCalculator = ({ doc, render }) => {
   const { pageWidth } = pageSize;
 
   return pageWidth === 0 ? (
-    <div className={`${theme.prefixClass}-page-size-calculator`} ref={pagesRef}>
+    <PageSizeCalculatorBlock ref={pagesRef}>
       <Spinner />
-    </div>
+    </PageSizeCalculatorBlock>
   ) : (
     render(pageSize)
   );

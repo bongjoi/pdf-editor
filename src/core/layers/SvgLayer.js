@@ -1,7 +1,7 @@
 import React, { useContext, createRef } from 'react';
-import PdfJs from 'pdfjs-dist';
-import ThemeContext from '../theme/ThemeContext';
 import WithScale from './WithScale';
+import PdfJs from '../vendors/PdfJs';
+import ThemeContext from '../theme/ThemeContext';
 
 const SvgLayer = ({ width, height, page, rotation, scale }) => {
   const theme = useContext(ThemeContext);

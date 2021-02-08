@@ -1,26 +1,14 @@
-import { GetFilePlugin } from '../get-file';
-import { PageNavigationPlugin } from '../page-navigation';
-import { PrintPlugin } from '../print';
-
 import Toolbar from './Toolbar';
+import { PageNavigationPlugin } from '../page-navigation';
+import { ZoomPlugin } from '../zoom';
 
 const ToolbarPlugin = (props) => {
-  const getFilePluginInstance = GetFilePlugin(props ? props.getFilePlugin : {});
   const pageNavigationPluginInstance = PageNavigationPlugin();
-  const printPluginInstance = PrintPlugin();
-  const rotatePluginInstance = RotatePlugin();
   const zoomPluginInstance = ZoomPlugin();
 
-  const plugins = [
-    getFilePluginInstance,
-    pageNavigationPluginInstance,
-    printPluginInstance,
-    rotatePluginInstance,
-    zoomPluginInstance
-  ];
+  const plugins = [pageNavigationPluginInstance, zoomPluginInstance];
 
   const ToolbarDecorator = (props) => {
-    const { Download } = getFilePluginInstance;
     const {
       CurrentPageInput,
       CurrentPageLabel,
@@ -31,12 +19,6 @@ const ToolbarPlugin = (props) => {
       GoToNextPage,
       GoToPreviousPage
     } = pageNavigationPluginInstance;
-    const { Print } = printPluginInstance;
-    const {
-      Rotate,
-      RotateBackwardMenuItem,
-      RotateForwardMenuItem
-    } = rotatePluginInstance;
     const { CurrentScale, Zoom, ZoomIn, ZoomOut } = zoomPluginInstance;
 
     const NumberOfPages = () => (
@@ -52,7 +34,6 @@ const ToolbarPlugin = (props) => {
           CurrentPageInput,
           CurrentPageLabel,
           CurrentScale,
-          Download,
           GoToFirstPage,
           GoToFirstPageMenuItem,
           GoToLastPage,
@@ -60,10 +41,6 @@ const ToolbarPlugin = (props) => {
           GoToNextPage,
           GoToPreviousPage,
           NumberOfPages,
-          Print,
-          Rotate,
-          RotateBackwardMenuItem,
-          RotateForwardMenuItem,
           Zoom,
           ZoomIn,
           ZoomOut
@@ -73,10 +50,7 @@ const ToolbarPlugin = (props) => {
   };
 
   return {
-    getFilePluginInstance,
     pageNavigationPluginInstance,
-    printPluginInstance,
-    rotatePluginInstance,
     zoomPluginInstance,
     install: (pluginFunctions) => {
       plugins.forEach((plugin) => {

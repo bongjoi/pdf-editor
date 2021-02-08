@@ -1,5 +1,5 @@
 import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect';
-import calculatePosition from '../utils/calculatePosition';
+import calculatePosition from '../core/utils/calculatePosition';
 
 export const usePosition = (
   contentRef,

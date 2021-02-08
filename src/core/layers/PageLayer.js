@@ -1,12 +1,21 @@
-import React, { useContext, useRef, useEffect, useState } from 'react';
-import ThemeContext from '../theme/ThemeContext';
-import Spinner from '../components/Spinner';
+import React, { useRef, useEffect, useState } from 'react';
+import styled from 'styled-components/macro';
 import CanvasLayer from './CanvasLayer';
 import SvgLayer from './SvgLayer';
 import TextLayer from './TextLayer';
+import Spinner from '../components/Spinner';
 import { useIntersectionObserver } from '../../hooks/useIntersectionObserver';
 
 const NUMBER_OF_OVERSCAN_PAGES = 2;
+
+const PageLayerBlock = styled.div`
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.2);
+`;
 
 const PageLayer = ({
   currentPage,
@@ -20,7 +29,6 @@ const PageLayer = ({
   scale,
   onPageVisibilityChanged
 }) => {
-  const theme = useContext(ThemeContext);
   const [pageSize, setPageSize] = useState({
     page: null,
     pageWidth: width,
@@ -92,9 +100,8 @@ const PageLayer = ({
   }, [currentPage]);
 
   return (
-    <div
+    <PageLayerBlock
       ref={containerRef}
-      className={`${theme.prefixClass}-page-layer`}
       style={{ width: `${w}px`, height: `${h}px` }}
     >
       {!page ? (
@@ -165,7 +172,7 @@ const PageLayer = ({
           )}
         </>
       )}
-    </div>
+    </PageLayerBlock>
   );
 };
 

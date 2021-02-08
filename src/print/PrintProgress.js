@@ -16,14 +16,14 @@ const PrintProgress = ({
   }, [numLoadedPages]);
 
   return (
-    <div className="pdf-editor-print-progress">
-      <div className="pdf-editor-print-progress-inner">
-        <div className="pdf-editor-print-progress-message">
+    <div className="editor-print-progress">
+      <div className="editor-print-progress-inner">
+        <div className="editor-print-progress-message">
           {l10n && l10n.print
             ? l10n.print.preparingDocument
             : '문서 불러오는중...'}
         </div>
-        <div className="pdf-editor-print-progress-bar">
+        <div className="editor-print-progress-bar">
           <ProgressBar progress={progress} />
         </div>
         <PrimaryButton onClick={onCancel}>

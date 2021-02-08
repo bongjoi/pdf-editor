@@ -1,6 +1,14 @@
 import { useState } from 'react';
+import styled from 'styled-components/macro';
 import { useCurrentPage } from '../hooks/useCurrentPage';
 import { useNumberOfPages } from '../hooks/useNumberOfPages';
+
+const CurrentPageInputElement = styled.input`
+  padding: 4px;
+  width: 30px;
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+`;
 
 const CurrentPageInput = ({ store }) => {
   const [pageTextboxFocused, setPageTextboxFocused] = useState(false);
@@ -65,8 +73,7 @@ const CurrentPageInput = ({ store }) => {
   };
 
   return (
-    <input
-      className="pdf-editor-current-page-input"
+    <CurrentPageInputElement
       type="text"
       value={pageTextboxFocused ? editingPage + 1 : currentPage + 1}
       onChange={changePage}

@@ -1,5 +1,5 @@
 import { createContext } from 'react';
 
-const ThemeContext = createContext({ prefixClass: 'pdf-editor' });
+const ThemeContext = createContext({ prefixClass: 'editor' });
 
 export default ThemeContext;

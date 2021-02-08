@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
-import { Spinner } from '@react-pdf-viewer/core';
+import { Spinner } from '../core';
 
 const PageThumbnail = ({ page, pageHeight, pageWidth, rotation, onLoad }) => {
   const renderTask = useRef();
@@ -45,7 +45,7 @@ const PageThumbnail = ({ page, pageHeight, pageWidth, rotation, onLoad }) => {
     <Spinner />
   ) : (
     <div
-      className="pdf-editor-print-page-thumbnail"
+      className="editor-print-page-thumbnail"
       style={{
         height: `${Math.floor((pageHeight * 96) / 72)}px`,
         width: `${Math.floor((pageWidth * 96) / 72)}px`

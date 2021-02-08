@@ -6,7 +6,7 @@ const downloadFile = (file, saveAs) => {
   const link = document.createElement('a');
   link.style.display = 'none';
   link.href = blobUrl || file.name;
-  link.setAttributes('download', saveAs);
+  link.setAttribute('download', saveAs);
 
   document.body.appendChild(link);
   link.click();

@@ -1,7 +1,16 @@
 import { useState, useEffect } from 'react';
+import styled from 'styled-components/macro';
 import ThumbnailList from './ThumbnailList';
 import { Spinner } from '../core';
 import { useIsomorphicLayoutEffect } from '../hooks/useIsomorphicLayoutEffect';
+
+const ThumbnailListLoaderBlock = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
 
 const ThumbnailListWithStore = ({ store }) => {
   const [currentDoc, setCurrentDoc] = useState(store.get('doc'));
@@ -69,9 +78,9 @@ const ThumbnailListWithStore = ({ store }) => {
       onJumpToPage={jump}
     />
   ) : (
-    <div className="pdf-editor-thumbnail-list-loader">
+    <ThumbnailListLoaderBlock>
       <Spinner />
-    </div>
+    </ThumbnailListLoaderBlock>
   );
 };
 

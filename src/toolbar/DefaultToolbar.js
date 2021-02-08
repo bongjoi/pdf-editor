@@ -1,51 +1,75 @@
-import React from 'react';
+import styled from 'styled-components/macro';
+
+const ToobarBlock = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  .left {
+    display: flex;
+    align-items: center;
+  }
+  .center {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    flex-shrink: 1;
+    justify-content: center;
+  }
+  .right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+  }
+  .item {
+    padding: 0 2px;
+  }
+`;
 
 const DefaultToolbar = (toolbarSlot) => {
   const {
     CurrentPageInput,
-    Download,
+    GoToFirstPage,
     GoToNextPage,
     GoToPreviousPage,
+    GoToLastPage,
     NumberOfPages,
-    Print,
     Zoom,
     ZoomIn,
     ZoomOut
   } = toolbarSlot;
 
   return (
-    <div className="pdf-editor-toolbar">
-      <div className="pdf-editor-toolbar-left">
-        <div className="pdf-editor-toolbar-item">
+    <ToobarBlock>
+      <div className="left">
+        <div className="item">
+          <GoToFirstPage />
+        </div>
+        <div className="item">
           <GoToPreviousPage />
         </div>
-        <div className="pdf-editor-toolbar-item">
+        <div className="item">
           <CurrentPageInput /> / <NumberOfPages />
         </div>
-        <div className="pdf-editor-toolbar-item">
+        <div className="item">
           <GoToNextPage />
         </div>
+        <div className="item">
+          <GoToLastPage />
+        </div>
       </div>
-      <div className="pdf-editor-toolbar-center">
-        <div className="pdf-editor-toolbar-item">
+      <div className="center"></div>
+      <div className="right">
+        <div className="item">
           <ZoomOut />
         </div>
-        <div className="pdf-editor-toolbar-item">
+        <div className="item">
           <Zoom />
         </div>
-        <div className="pdf-editor-toolbar-item">
+        <div className="item">
           <ZoomIn />
         </div>
       </div>
-      <div className="pdf-editor-toolbar-right">
-        <div className="pdf-editor-toolbar-item">
-          <Download />
-        </div>
-        <div className="pdf-editor-toolbar-item">
-          <Print />
-        </div>
-      </div>
-    </div>
+    </ToobarBlock>
   );
 };
 

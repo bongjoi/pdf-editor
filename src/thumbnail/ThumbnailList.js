@@ -1,6 +1,23 @@
 import React from 'react';
+import styled from 'styled-components/macro';
 import ThumbnailContainer from './ThumbnailContainer';
 import { classNames } from '../core';
+
+const ThumbnailListBlock = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-flow: row wrap;
+  .thumbnail-item {
+    padding: 8px;
+    cursor: pointer;
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+    &-selected {
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+  }
+`;
 
 const ThumbnailList = ({
   currentPage,
@@ -12,7 +29,7 @@ const ThumbnailList = ({
 }) => {
   const { numPages } = doc;
   return (
-    <div className="pdf-editor-thumbnail-list">
+    <ThumbnailListBlock>
       {Array(numPages)
         .fill(0)
         .map((_, index) => {
@@ -20,8 +37,8 @@ const ThumbnailList = ({
             <div key={`thumbnail-${index}`} onClick={() => onJumpToPage(index)}>
               <div
                 className={classNames({
-                  ['pdf-editor-thumbnail-item']: true,
-                  ['pdf-editor-thumbnail-item-selected']: currentPage === index
+                  ['thumbnail-item']: true,
+                  ['thumbnail-item-selected']: currentPage === index
                 })}
               >
                 <ThumbnailContainer
@@ -35,7 +52,7 @@ const ThumbnailList = ({
             </div>
           );
         })}
-    </div>
+    </ThumbnailListBlock>
   );
 };
 

@@ -1,17 +1,16 @@
-import React, {
-  useContext,
-  useRef,
-  useState,
-  useEffect,
-  createRef
-} from 'react';
+import React, { useRef, useState, useEffect, createRef } from 'react';
+import styled from 'styled-components/macro';
 import PageLayer from '../layers/PageLayer';
-import ThemeContext from '../theme/ThemeContext';
 import getFileExt from '../utils/fileExt';
-import { SpecialZoomLevel } from '../SpecialZoomLevel';
+import SpecialZoomLevel from '../SpecialZoomLevel';
 
 const SCROLL_BAR_WIDTH = 17;
 const PAGE_PADDING = 8;
+
+const InnerPageBlock = styled.div`
+  padding: 8px;
+  background: #fff;
+`;
 
 const Inner = ({
   defaultScale,
@@ -26,7 +25,6 @@ const Inner = ({
   onPageChange,
   onZoom
 }) => {
-  const theme = useContext(ThemeContext);
   const containerRef = useRef(null);
   const pagesRef = useRef(null);
   const [scale, setScale] = useState(pageSize.scale);
@@ -251,27 +249,6 @@ const Inner = ({
     setCurrentPage(maxRatioPage);
   };
 
-  const executeNamedAction = (action) => {
-    const previousPage = currentPage - 1;
-    const nextPage = currentPage + 1;
-    switch (action) {
-      case 'FirstPage':
-        jumpToPage(0);
-        break;
-      case 'LastPage':
-        jumpToPage(numPages - 1);
-        break;
-      case 'NextPage':
-        nextPage < numPages && jumpToPage(nextPage);
-        break;
-      case 'PrevPage':
-        previousPage >= 0 && jumpToPage(previousPage);
-        break;
-      default:
-        break;
-    }
-  };
-
   const renderViewer = () => {
     let slot = {
       attrs: {
@@ -296,8 +273,7 @@ const Inner = ({
               .fill(0)
               .map((_, index) => {
                 return (
-                  <div
-                    className={`${theme.prefixClass}-inner-page`}
+                  <InnerPageBlock
                     key={`pagelayer-${index}`}
                     ref={(ref) => {
                       pageRefs[index].current = ref;
@@ -315,7 +291,7 @@ const Inner = ({
                       scale={scale}
                       onPageVisibilityChanged={pageVisibilityChanged}
                     />
-                  </div>
+                  </InnerPageBlock>
                 );
               })}
           </>

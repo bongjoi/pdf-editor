@@ -1,9 +1,19 @@
 import React, { useState } from 'react';
+import styled from 'styled-components/macro';
 import ThumbnailItem from './ThumbnailItem';
 import { Spinner } from '../core';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 
 const THUMBNAIL_WIDTH = 100;
+
+const ThumbnailContainerBlock = styled.div`
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 8px 0px;
+`;
 
 const ThumbnailContainer = ({
   doc,
@@ -47,8 +57,7 @@ const ThumbnailContainer = ({
   const containerRef = useIntersectionObserver({ onVisibilityChanged });
 
   return (
-    <div
-      className="pdf-editor-thumbnail-container"
+    <ThumbnailContainerBlock
       ref={containerRef}
       style={{ width: `${w}px`, height: `${h}px` }}
     >
@@ -64,7 +73,7 @@ const ThumbnailContainer = ({
           thumbnailHeigiht={h}
         />
       )}
-    </div>
+    </ThumbnailContainerBlock>
   );
 };
 

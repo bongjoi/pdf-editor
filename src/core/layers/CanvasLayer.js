@@ -1,7 +1,14 @@
-import React, { useContext, createRef, useRef } from 'react';
+import React, { createRef, useRef } from 'react';
+import styled from 'styled-components/macro';
 import WithScale from './WithScale';
-import ThemeContext from '../theme/ThemeContext';
 import LayerRenderStatus from '../types/LayerRenderStatus';
+
+const CanvasLayerBlock = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+`;
 
 const CanvasLayer = ({
   width,
@@ -12,7 +19,6 @@ const CanvasLayer = ({
   rotation,
   scale
 }) => {
-  const theme = useContext(ThemeContext);
   const canvasRef = createRef();
   const renderTask = useRef();
 
@@ -70,10 +76,7 @@ const CanvasLayer = ({
 
   return (
     <WithScale callback={renderCanvas} rotation={rotation} scale={scale}>
-      <div
-        className={`${theme.prefixClass}-canvas-layer`}
-        style={{ width: `${width}px`, height: `${height}px` }}
-      >
+      <CanvasLayerBlock style={{ width: `${width}px`, height: `${height}px` }}>
         <canvas
           ref={canvasRef}
           style={{
@@ -81,7 +84,7 @@ const CanvasLayer = ({
             transformOrigin: 'top left'
           }}
         />
-      </div>
+      </CanvasLayerBlock>
     </WithScale>
   );
 };

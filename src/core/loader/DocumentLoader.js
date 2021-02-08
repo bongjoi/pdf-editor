@@ -1,5 +1,5 @@
-import React, { useContext, useState, useEffect } from 'react';
-import PdfJs from 'pdfjs-dist';
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components/macro';
 import AskForPasswordState from './AskForPasswordState';
 import AskingPassword from './AskingPassword';
 import WrongPasswordState from './WrongPasswordState';
@@ -8,8 +8,30 @@ import LoadingState from './LoadingState';
 import CompletedState from './CompletedState';
 import FailureState from './FailureState';
 import Spinner from '../components/Spinner';
-import ThemeContext from '../theme/ThemeContext';
+import PdfJs from '../vendors/PdfJs';
 import { useIsMounted } from '../../hooks/useIsMounted';
+
+const DocErrorBlock = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  .error-text {
+    padding: 0.5rem;
+    max-width: 50%;
+    color: #fff;
+    line-height: 1.5;
+    background-color: #e53e3e;
+    border-radius: 0.25rem;
+  }
+`;
+const DocLoadingBlock = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
 
 const DocumentLoader = ({
   characterMap,
@@ -20,7 +42,6 @@ const DocumentLoader = ({
   renderLoader,
   withCredentials
 }) => {
-  const theme = useContext(ThemeContext);
   const [status, setStatus] = useState(new LoadingState(0));
   const [percentages, setPercentages] = useState(0);
   const [loadedDocument, setLoadedDocument] = useState(null);
@@ -101,23 +122,21 @@ const DocumentLoader = ({
       return renderError ? (
         renderError(status.error)
       ) : (
-        <div className={`${theme.prefixClass}-doc-error`}>
-          <div className={`${theme.prefixClass}-doc-error-text`}>
-            {status.error.message}
-          </div>
-        </div>
+        <DocErrorBlock>
+          <div className="error-text">{status.error.message}</div>
+        </DocErrorBlock>
       );
     case status instanceof LoadingState:
       return (
-        <div className={`${theme.prefixClass}-doc-loading`}>
+        <DocLoadingBlock>
           {renderLoader ? renderLoader(status.percentages) : <Spinner />}
-        </div>
+        </DocLoadingBlock>
       );
     default:
       return (
-        <div className={`${theme.prefixClass}-doc-loading`}>
+        <DocLoadingBlock>
           <Spinner />
-        </div>
+        </DocLoadingBlock>
       );
   }
 };

@@ -1,7 +1,7 @@
-import PdfJS from 'pdfjs-dist';
+import PdfJs from './vendors/PdfJs';
 
 const Worker = ({ children, workerUrl }) => {
-  PdfJS.GlobalWorkerOptions.workerSrc = workerUrl;
+  PdfJs.GlobalWorkerOptions.workerSrc = workerUrl;
   return <>{children}</>;
 };
 

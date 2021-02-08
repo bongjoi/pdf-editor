@@ -1,4 +1,5 @@
-import { createPortal, useState, useEffect } from 'react-dom';
+import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import PageThumbnailContainer from './PageThumbnailContainer';
 import PrintStatus from './PrintStatus';
 
@@ -15,13 +16,13 @@ const PrintZone = ({
 
   useEffect(() => {
     if (printStatus === PrintStatus.Ready) {
-      document.body.classList.add('pdf-editor-body-printing');
+      document.body.classList.add('editor-body-printing');
       window.print();
     }
 
     const handler = () => {
       if (printStatus === PrintStatus.Ready) {
-        document.body.classList.remove('pdf-editor-body-printing');
+        document.body.classList.remove('editor-body-printing');
         onCancel();
       }
     };
@@ -39,7 +40,7 @@ const PrintZone = ({
 
   return createPortal(
     <>
-      <div className="pdf-editor-print-zone">
+      <div className="editor-print-zone">
         {Array(numPages)
           .fill(0)
           .map((_, index) => {

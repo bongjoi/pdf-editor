@@ -1,4 +1,4 @@
-import { Icon } from '@react-pdf-viewer/core';
+import { Icon } from '../core';
 
 const PrintIcon = () => {
   return (
