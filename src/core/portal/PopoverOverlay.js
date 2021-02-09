@@ -1,18 +1,13 @@
-import styled from 'styled-components/macro';
+import { useContext } from 'react';
 import { useKeyUp } from '../../hooks/useKeyUp';
-
-const PopoverOverlayBlock = styled.div`
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-`;
+import ThemeContext from '../theme/ThemeContext';
 
 const PopoverOverlay = ({ closeOnEscape, onClose }) => {
+  const theme = useContext(ThemeContext);
+
   useKeyUp(27, () => closeOnEscape && onClose());
 
-  return <PopoverOverlayBlock />;
+  return <div className={`${theme.prefixClass}-popover-overlay`} />;
 };
 
 export default PopoverOverlay;

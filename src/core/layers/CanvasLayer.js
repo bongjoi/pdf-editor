@@ -1,24 +1,18 @@
-import React, { createRef, useRef } from 'react';
-import styled from 'styled-components/macro';
+import { useContext, createRef, useRef } from 'react';
 import WithScale from './WithScale';
+import ThemeContext from '../theme/ThemeContext';
 import LayerRenderStatus from '../types/LayerRenderStatus';
 
-const CanvasLayerBlock = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-`;
-
 const CanvasLayer = ({
-  width,
   height,
   page,
   pageIndex,
   plugins,
   rotation,
-  scale
+  scale,
+  width
 }) => {
+  const theme = useContext(ThemeContext);
   const canvasRef = createRef();
   const renderTask = useRef();
 
@@ -30,12 +24,12 @@ const CanvasLayer = ({
       task.cancel();
     }
 
-    const canvasElement = canvasRef.current;
+    const canvasEle = canvasRef.current;
 
     plugins.forEach((plugin) => {
       if (plugin.onCanvasLayerRender) {
         plugin.onCanvasLayerRender({
-          element: canvasElement,
+          ele: canvasEle,
           pageIndex,
           rotation,
           scale,
@@ -44,11 +38,11 @@ const CanvasLayer = ({
       }
     });
 
-    canvasElement.width = width * devicePixelRatio;
-    canvasElement.height = height * devicePixelRatio;
-    canvasElement.style.opacity = '0';
+    canvasEle.height = height * devicePixelRatio;
+    canvasEle.width = width * devicePixelRatio;
+    canvasEle.style.opacity = '0';
 
-    const canvasContext = canvasElement.getContext('2d', { alpha: false });
+    const canvasContext = canvasEle.getContext('2d', { alpha: false });
 
     const viewport = page.getViewport({
       rotation,
@@ -57,11 +51,11 @@ const CanvasLayer = ({
     renderTask.current = page.render({ canvasContext, viewport });
     renderTask.current.promise.then(
       () => {
-        canvasElement.style.removeProperty('opacity');
+        canvasEle.style.removeProperty('opacity');
         plugins.forEach((plugin) => {
           if (plugin.onCanvasLayerRender) {
             plugin.onCanvasLayerRender({
-              element: canvasElement,
+              ele: canvasEle,
               pageIndex,
               rotation,
               scale,
@@ -76,15 +70,21 @@ const CanvasLayer = ({
 
   return (
     <WithScale callback={renderCanvas} rotation={rotation} scale={scale}>
-      <CanvasLayerBlock style={{ width: `${width}px`, height: `${height}px` }}>
+      <div
+        className={`${theme.prefixClass}-canvas-layer`}
+        style={{
+          height: `${height}px`,
+          width: `${width}px`
+        }}
+      >
         <canvas
           ref={canvasRef}
           style={{
             transform: `scale(${1 / devicePixelRatio})`,
-            transformOrigin: 'top left'
+            transformOrigin: `top left`
           }}
         />
-      </CanvasLayerBlock>
+      </div>
     </WithScale>
   );
 };

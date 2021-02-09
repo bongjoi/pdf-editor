@@ -1,10 +1,10 @@
 import Toolbar from './Toolbar';
-import { PageNavigationPlugin } from '../page-navigation';
-import { ZoomPlugin } from '../zoom';
+import { pageNavigationPlugin } from '../page-navigation';
+import { zoomPlugin } from '../zoom';
 
 const ToolbarPlugin = (props) => {
-  const pageNavigationPluginInstance = PageNavigationPlugin();
-  const zoomPluginInstance = ZoomPlugin();
+  const pageNavigationPluginInstance = pageNavigationPlugin();
+  const zoomPluginInstance = zoomPlugin();
 
   const plugins = [pageNavigationPluginInstance, zoomPluginInstance];
 
@@ -13,9 +13,7 @@ const ToolbarPlugin = (props) => {
       CurrentPageInput,
       CurrentPageLabel,
       GoToFirstPage,
-      GoToFirstPageMenuItem,
       GoToLastPage,
-      GoToLastPageMenuItem,
       GoToNextPage,
       GoToPreviousPage
     } = pageNavigationPluginInstance;
@@ -35,9 +33,7 @@ const ToolbarPlugin = (props) => {
           CurrentPageLabel,
           CurrentScale,
           GoToFirstPage,
-          GoToFirstPageMenuItem,
           GoToLastPage,
-          GoToLastPageMenuItem,
           GoToNextPage,
           GoToPreviousPage,
           NumberOfPages,

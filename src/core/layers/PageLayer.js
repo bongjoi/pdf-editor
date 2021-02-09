@@ -1,42 +1,34 @@
-import React, { useRef, useEffect, useState } from 'react';
-import styled from 'styled-components/macro';
+import React, { useContext, useState, useRef, useEffect } from 'react';
 import CanvasLayer from './CanvasLayer';
 import SvgLayer from './SvgLayer';
 import TextLayer from './TextLayer';
 import Spinner from '../components/Spinner';
 import { useIntersectionObserver } from '../../hooks/useIntersectionObserver';
+import ThemeContext from '../theme/ThemeContext';
 
 const NUMBER_OF_OVERSCAN_PAGES = 2;
-
-const PageLayerBlock = styled.div`
-  margin: 0 auto;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.2);
-`;
 
 const PageLayer = ({
   currentPage,
   doc,
-  width,
   height,
   pageIndex,
   plugins,
   renderPage,
   rotation,
   scale,
+  width,
   onPageVisibilityChanged
 }) => {
+  const theme = useContext(ThemeContext);
   const [pageSize, setPageSize] = useState({
     page: null,
-    pageWidth: width,
     pageHeight: height,
+    pageWidth: width,
     viewportRotation: 0
   });
 
-  const { page, pageWidth, pageHeight } = pageSize;
+  const { page, pageHeight, pageWidth } = pageSize;
 
   const prevIsCalculated = useRef(false);
 
@@ -47,13 +39,14 @@ const PageLayer = ({
   const scaledWidth = pageWidth * scale;
   const scaledHeight = pageHeight * scale;
 
-  const isVertical = Math.abs(rotation) % 100 === 0;
+  const isVertical = Math.abs(rotation) % 180 === 0;
   const w = isVertical ? scaledWidth : scaledHeight;
   const h = isVertical ? scaledHeight : scaledWidth;
 
   const determinePageSize = () => {
-    if (prevIsCalculated.current) return;
-
+    if (prevIsCalculated.current) {
+      return;
+    }
     prevIsCalculated.current = true;
 
     doc.getPage(pageIndex + 1).then((pdfPage) => {
@@ -61,8 +54,8 @@ const PageLayer = ({
 
       setPageSize({
         page: pdfPage,
-        pageWidth: viewport.width,
         pageHeight: viewport.height,
+        pageWidth: viewport.width,
         viewportRotation: viewport.rotation
       });
     });
@@ -100,9 +93,14 @@ const PageLayer = ({
   }, [currentPage]);
 
   return (
-    <PageLayerBlock
+    <div
       ref={containerRef}
-      style={{ width: `${w}px`, height: `${h}px` }}
+      className={`${theme.prefixClass}-page-layer`}
+      data-testid={`viewer-page-layer-${pageIndex}`}
+      style={{
+        height: `${h}px`,
+        width: `${w}px`
+      }}
     >
       {!page ? (
         <Spinner />
@@ -113,25 +111,30 @@ const PageLayer = ({
               attrs: {},
               children: (
                 <CanvasLayer
-                  width={w}
                   height={h}
                   page={page}
                   pageIndex={pageIndex}
                   plugins={plugins}
                   rotation={rotationNumber}
                   scale={scale}
+                  width={w}
                 />
               )
             },
+            doc,
+            height: h,
+            pageIndex,
+            rotation,
+            scale,
             svgLayer: {
               attrs: {},
               children: (
                 <SvgLayer
-                  width={w}
                   height={h}
                   page={page}
                   rotation={rotationNumber}
                   scale={scale}
+                  width={w}
                 />
               )
             },
@@ -147,23 +150,18 @@ const PageLayer = ({
                 />
               )
             },
-            doc,
-            width: w,
-            height: h,
-            pageIndex,
-            rotation,
-            scale
+            width: w
           })}
           {plugins.map((plugin, idx) =>
             plugin.renderPageLayer ? (
               <React.Fragment key={idx}>
                 {plugin.renderPageLayer({
                   doc,
-                  width: w,
                   height: h,
                   pageIndex,
                   rotation,
-                  scale
+                  scale,
+                  width: w
                 })}
               </React.Fragment>
             ) : (
@@ -172,7 +170,7 @@ const PageLayer = ({
           )}
         </>
       )}
-    </PageLayerBlock>
+    </div>
   );
 };
 

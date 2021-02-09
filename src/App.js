@@ -1,9 +1,9 @@
-import { Worker, Editor } from './core';
 import workerUrl from 'pdfjs-dist/build/pdf.worker.entry';
-import { DefaultLayoutPlugin } from './default-layout';
+import { Worker, Editor } from './core';
+import { defaultLayoutPlugin } from './default-layout';
 
 const App = () => {
-  const defaultLayoutPluginInstance = DefaultLayoutPlugin();
+  const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
   return (
     <Worker workerUrl={workerUrl}>

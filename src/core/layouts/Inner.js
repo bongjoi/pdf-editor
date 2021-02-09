@@ -1,16 +1,11 @@
-import React, { useRef, useState, useEffect, createRef } from 'react';
-import styled from 'styled-components/macro';
+import { useContext, useRef, useState, useEffect } from 'react';
 import PageLayer from '../layers/PageLayer';
-import getFileExt from '../utils/fileExt';
 import SpecialZoomLevel from '../SpecialZoomLevel';
+import ThemeContext from '../theme/ThemeContext';
+import getFileExt from '../utils/fileExt';
 
 const SCROLL_BAR_WIDTH = 17;
 const PAGE_PADDING = 8;
-
-const InnerPageBlock = styled.div`
-  padding: 8px;
-  background: #fff;
-`;
 
 const Inner = ({
   defaultScale,
@@ -25,17 +20,21 @@ const Inner = ({
   onPageChange,
   onZoom
 }) => {
+  const theme = useContext(ThemeContext);
   const containerRef = useRef(null);
   const pagesRef = useRef(null);
   const [scale, setScale] = useState(pageSize.scale);
   const [currentPage, setCurrentPage] = useState(0);
   const [rotation, setRotation] = useState(0);
   const stateRef = useRef(viewerState);
+
   const { numPages } = doc;
   const { pageWidth, pageHeight } = pageSize;
+
   const arr = Array(numPages).fill(null);
   const pageVisibility = arr.map(() => 0);
-  const pageRefs = arr.map(() => createRef()); // TODO: Fix it
+  /* eslint-disable react-hooks/rules-of-hooks */
+  const pageRefs = arr.map(() => useRef());
 
   const setViewerState = (viewerState) => {
     let newState = viewerState;
@@ -50,44 +49,20 @@ const Inner = ({
   const getPagesContainer = () => pagesRef.current;
 
   const getPageElement = (pageIndex) => {
-    if (pageIndex < 0 || pageIndex >= numPages) return null;
+    if (pageIndex < 0 || pageIndex >= numPages) {
+      return null;
+    }
     return pageRefs[pageIndex].current;
   };
 
   const getViewerState = () => stateRef.current;
 
-  const zoom = (newScale) => {
-    const pagesElement = pagesRef.current;
-    const currentState = stateRef.current;
-    if (!pagesElement || !currentState) return;
-
-    let updateScale = 1;
-    switch (newScale) {
-      case SpecialZoomLevel.ActualSize:
-        updateScale = 1;
-        break;
-      case SpecialZoomLevel.PageFit:
-        updateScale = Math.min(
-          (pagesElement.clientWidth - SCROLL_BAR_WIDTH) / pageWidth,
-          (pagesElement.clientHeight - 2 * PAGE_PADDING) / pageHeight
-        );
-        break;
-      case SpecialZoomLevel.PageWidth:
-        updateScale = (pagesElement.clientWidth - SCROLL_BAR_WIDTH) / pageWidth;
-        break;
-      default:
-        updateScale = newScale;
-        break;
-    }
-
-    setScale(updateScale);
-    onZoom({ doc, scale: updateScale });
-  };
-
   const jumpToDestination = (pageIndex, bottomOffset, leftOffset, scaleTo) => {
     const pagesContainer = pagesRef.current;
     const currentState = stateRef.current;
-    if (!pagesContainer || !currentState) return;
+    if (!pagesContainer || !currentState) {
+      return;
+    }
 
     const newPageIndex = pageIndex + 1;
     doc.getPage(newPageIndex).then((page) => {
@@ -113,17 +88,18 @@ const Inner = ({
           break;
       }
 
-      const targetPageElement = pageRefs[pageIndex].current;
-      if (targetPageElement) {
-        pagesContainer.scrollTop = targetPageElement.offsetTop + top;
-        pagesContainer.scrollLeft = targetPageElement.offsetLeft + left;
+      const targetPageEle = pageRefs[pageIndex].current;
+      if (targetPageEle) {
+        pagesContainer.scrollTop = targetPageEle.offsetTop + top;
+        pagesContainer.scrollLeft = targetPageEle.offsetLeft + left;
       }
     });
   };
 
   const jumpToPage = (pageIndex) => {
-    if (pageIndex < 0 || pageIndex >= numPages) return;
-
+    if (pageIndex < 0 || pageIndex >= numPages) {
+      return;
+    }
     const pagesContainer = pagesRef.current;
     const targetPage = pageRefs[pageIndex].current;
     if (pagesContainer && targetPage) {
@@ -134,8 +110,9 @@ const Inner = ({
   };
 
   const openFile = (file) => {
-    if (getFileExt(file.name).toLowerCase() !== 'pdf') return;
-
+    if (getFileExt(file.name).toLowerCase() !== 'pdf') {
+      return;
+    }
     new Promise((resolve) => {
       const reader = new FileReader();
       reader.readAsArrayBuffer(file);
@@ -160,23 +137,56 @@ const Inner = ({
     });
   };
 
-  useEffect(() => {
-    const pagesElement = pagesRef.current;
+  const zoom = (newScale) => {
+    const pagesEle = pagesRef.current;
     const currentState = stateRef.current;
-    if (!pagesElement || !currentState) return;
+    if (!pagesEle || !currentState) {
+      return;
+    }
 
-    pagesElement.scrollTop =
-      (pagesElement.scrollTop * scale) / currentState.scale;
-    pagesElement.scrollLeft =
-      (pagesElement.scrollLeft * scale) / currentState.scale;
+    let updateScale = 1;
+    switch (newScale) {
+      case SpecialZoomLevel.ActualSize:
+        updateScale = 1;
+        break;
+
+      case SpecialZoomLevel.PageFit:
+        updateScale = Math.min(
+          (pagesEle.clientWidth - SCROLL_BAR_WIDTH) / pageWidth,
+          (pagesEle.clientHeight - 2 * PAGE_PADDING) / pageHeight
+        );
+        break;
+
+      case SpecialZoomLevel.PageWidth:
+        updateScale = (pagesEle.clientWidth - SCROLL_BAR_WIDTH) / pageWidth;
+        break;
+
+      default:
+        updateScale = newScale;
+        break;
+    }
+
+    setScale(updateScale);
+    onZoom({ doc, scale: updateScale });
+  };
+
+  useEffect(() => {
+    const pagesEle = pagesRef.current;
+    const currentState = stateRef.current;
+    if (!pagesEle || !currentState) {
+      return;
+    }
+
+    pagesEle.scrollTop = (pagesEle.scrollTop * scale) / currentState.scale;
+    pagesEle.scrollLeft = (pagesEle.scrollLeft * scale) / currentState.scale;
 
     setViewerState({
       file: viewerState.file,
       pageIndex: currentState.pageIndex,
-      pageWidth,
       pageHeight,
+      pageWidth,
       rotation,
-      scale
+      scale: scale
     });
   }, [scale]);
 
@@ -225,8 +235,8 @@ const Inner = ({
     setViewerState({
       file: viewerState.file,
       pageIndex: currentPage,
-      pageWidth,
       pageHeight,
+      pageWidth,
       rotation,
       scale
     });
@@ -247,6 +257,27 @@ const Inner = ({
       0
     );
     setCurrentPage(maxRatioPage);
+  };
+
+  const executeNamedAction = (action) => {
+    const previousPage = currentPage - 1;
+    const nextPage = currentPage + 1;
+    switch (action) {
+      case 'FirstPage':
+        jumpToPage(0);
+        break;
+      case 'LastPage':
+        jumpToPage(numPages - 1);
+        break;
+      case 'NextPage':
+        nextPage < numPages && jumpToPage(nextPage);
+        break;
+      case 'PrevPage':
+        previousPage >= 0 && jumpToPage(previousPage);
+        break;
+      default:
+        break;
+    }
   };
 
   const renderViewer = () => {
@@ -273,7 +304,8 @@ const Inner = ({
               .fill(0)
               .map((_, index) => {
                 return (
-                  <InnerPageBlock
+                  <div
+                    className={`${theme.prefixClass}-inner-page`}
                     key={`pagelayer-${index}`}
                     ref={(ref) => {
                       pageRefs[index].current = ref;
@@ -282,16 +314,18 @@ const Inner = ({
                     <PageLayer
                       currentPage={currentPage}
                       doc={doc}
-                      width={pageWidth}
                       height={pageHeight}
                       pageIndex={index}
                       plugins={plugins}
                       renderPage={renderPage}
                       rotation={rotation}
                       scale={scale}
+                      width={pageWidth}
+                      onExecuteNamedAction={executeNamedAction}
+                      onJumpToDest={jumpToDestination}
                       onPageVisibilityChanged={pageVisibilityChanged}
                     />
-                  </InnerPageBlock>
+                  </div>
                 );
               })}
           </>
@@ -304,8 +338,8 @@ const Inner = ({
         slot = plugin.renderViewer({
           containerRef,
           doc,
-          pageWidth,
           pageHeight,
+          pageWidth,
           rotation,
           slot,
           jumpToPage,

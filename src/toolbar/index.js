@@ -1,1 +1,1 @@
-export { default as ToolbarPlugin } from './ToolbarPlugin';
+export { default as toolbarPlugin } from './ToolbarPlugin';

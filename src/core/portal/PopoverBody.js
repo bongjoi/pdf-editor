@@ -1,22 +1,8 @@
-import { createRef } from 'react';
-import styled from 'styled-components/macro';
+import { useContext, createRef } from 'react';
 import Arrow from './Arrow';
+import ThemeContext from '../theme/ThemeContext';
 import { useClickOutside } from '../../hooks/useClickOutside';
 import { usePosition } from '../../hooks/usePosition';
-
-const PopoverBodyBlock = styled.div`
-  padding: 8px 0;
-  position: absolute;
-  top: -9999px;
-  left: 0;
-  background: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  border-radius: 4px;
-  z-index: 9999;
-  .arrow {
-    background: rgb(255, 255, 255);
-  }
-`;
 
 const PopoverBody = ({
   children,
@@ -26,6 +12,7 @@ const PopoverBody = ({
   targetRef,
   onClose
 }) => {
+  const theme = useContext(ThemeContext);
   const contentRef = createRef();
   const anchorRef = createRef();
 
@@ -35,10 +22,13 @@ const PopoverBody = ({
   return (
     <>
       <div ref={anchorRef} style={{ left: 0, position: 'absolute', top: 0 }} />
-      <PopoverBodyBlock ref={contentRef}>
-        <Arrow customClassName="arrow" position={position} />
+      <div className={`${theme.prefixClass}-popover-body`} ref={contentRef}>
+        <Arrow
+          customClassName={`${theme.prefixClass}-popover-body-arrow`}
+          position={position}
+        />
         {children}
-      </PopoverBodyBlock>
+      </div>
     </>
   );
 };

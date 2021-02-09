@@ -1,5 +1,4 @@
 import { useContext } from 'react';
-import styled from 'styled-components/macro';
 import {
   LocalizationContext,
   Menu,
@@ -13,29 +12,13 @@ import {
 const LEVELS = [0.75, 1, 1.25, 1.5];
 const PORTAL_OFFSET = { left: 0, top: 8 };
 
-const PopoverTarget = styled.span`
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  .scale {
-    margin-right: 4px;
-  }
-  .arrow {
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 8px 4px 0;
-    border-color: rgba(0, 0, 0, 0.6) transparent transparent;
-  }
-`;
-
 const ZoomPopover = ({ scale, onZoom }) => {
   const l10n = useContext(LocalizationContext);
 
   const getSpcialLevelLabel = (level) => {
     switch (level) {
       case SpecialZoomLevel.ActualSize:
-        return l10n && l10n.zoom ? l10n.zoom.actualSize : '실제 크기';
+        return l10n && l10n.zoom ? l10n.zoom.actualSize : '실제 사이즈';
       case SpecialZoomLevel.PageFit:
         return l10n && l10n.zoom ? l10n.zoom.pageFit : '페이지에 맞게';
       case SpecialZoomLevel.PageWidth:
@@ -50,10 +33,12 @@ const ZoomPopover = ({ scale, onZoom }) => {
       toggle();
     };
     return (
-      <PopoverTarget onClick={click}>
-        <span className="scale">{Math.round(scale * 100)}%</span>
-        <span className="arrow" />
-      </PopoverTarget>
+      <span className="editor-zoom-popover-target" onClick={click}>
+        <span className="editor-zoom-popover-target-scale">
+          {Math.round(scale * 100)}%
+        </span>
+        <span className="editor-zoom-popover-target-arrow" />
+      </span>
     );
   };
 

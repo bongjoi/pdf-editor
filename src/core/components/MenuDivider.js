@@ -1,11 +1,9 @@
-import styled from 'styled-components/macro';
-const MenuItemDivider = styled.li`
-  margin: 4px 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-`;
+import { useContext } from 'react';
+import ThemeContext from '../theme/ThemeContext';
 
 const MenuDivider = () => {
-  return <MenuItemDivider />;
+  const theme = useContext(ThemeContext);
+  return <li className={`${theme.prefixClass}-menu-divider`} />;
 };
 
 export default MenuDivider;

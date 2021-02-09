@@ -1,37 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components/macro';
+import { useContext, useState, useEffect } from 'react';
 import AskForPasswordState from './AskForPasswordState';
 import AskingPassword from './AskingPassword';
-import WrongPasswordState from './WrongPasswordState';
-import WrongPassword from './WrongPassword';
-import LoadingState from './LoadingState';
 import CompletedState from './CompletedState';
 import FailureState from './FailureState';
+import LoadingState from './LoadingState';
+import WrongPassword from './WrongPassword';
+import WrongPasswordState from './WrongPasswordState';
 import Spinner from '../components/Spinner';
+import ThemeContext from '../theme/ThemeContext';
 import PdfJs from '../vendors/PdfJs';
 import { useIsMounted } from '../../hooks/useIsMounted';
-
-const DocErrorBlock = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  .error-text {
-    padding: 0.5rem;
-    max-width: 50%;
-    color: #fff;
-    line-height: 1.5;
-    background-color: #e53e3e;
-    border-radius: 0.25rem;
-  }
-`;
-const DocLoadingBlock = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-`;
 
 const DocumentLoader = ({
   characterMap,
@@ -42,6 +20,7 @@ const DocumentLoader = ({
   renderLoader,
   withCredentials
 }) => {
+  const theme = useContext(ThemeContext);
   const [status, setStatus] = useState(new LoadingState(0));
   const [percentages, setPercentages] = useState(0);
   const [loadedDocument, setLoadedDocument] = useState(null);
@@ -51,13 +30,14 @@ const DocumentLoader = ({
     setStatus(new LoadingState(0));
 
     const worker = new PdfJs.PDFWorker({ name: `PDFWorker_${Date.now()}` });
+
     const params = Object.assign(
       {
         httpHeaders,
         withCredentials,
         worker
       },
-      typeof file === 'string' ? { url: file } : { data: file },
+      'string' === typeof file ? { url: file } : { data: file },
       characterMap
         ? { cMapUrl: characterMap.url, cMapPacked: characterMap.isCompressed }
         : {}
@@ -88,13 +68,13 @@ const DocumentLoader = ({
     };
     loadingTask.promise.then(
       (doc) => isMounted.current && setLoadedDocument(doc),
-      (error) =>
+      (err) =>
         isMounted.current &&
         !worker.destroyed &&
         setStatus(
           new FailureState({
-            message: error.message || '문서를 불러올 수 없습니다.',
-            name: error.name
+            message: err.message || 'Cannot load document',
+            name: err.name
           })
         )
     );
@@ -103,13 +83,13 @@ const DocumentLoader = ({
       loadingTask.destroy();
       worker.destroy();
     };
-  }, [characterMap, file, httpHeaders, isMounted, withCredentials]);
+  }, [file]);
 
   useEffect(() => {
     percentages === 100 && loadedDocument
       ? isMounted.current && setStatus(new CompletedState(loadedDocument))
       : isMounted.current && setStatus(new LoadingState(percentages));
-  }, [percentages, loadedDocument, isMounted]);
+  }, [percentages, loadedDocument]);
 
   switch (true) {
     case status instanceof AskForPasswordState:
@@ -122,21 +102,23 @@ const DocumentLoader = ({
       return renderError ? (
         renderError(status.error)
       ) : (
-        <DocErrorBlock>
-          <div className="error-text">{status.error.message}</div>
-        </DocErrorBlock>
+        <div className={`${theme.prefixClass}-doc-error`}>
+          <div className={`${theme.prefixClass}-doc-error-text`}>
+            {status.error.message}
+          </div>
+        </div>
       );
     case status instanceof LoadingState:
       return (
-        <DocLoadingBlock>
+        <div className={`${theme.prefixClass}-doc-loading`}>
           {renderLoader ? renderLoader(status.percentages) : <Spinner />}
-        </DocLoadingBlock>
+        </div>
       );
     default:
       return (
-        <DocLoadingBlock>
+        <div className={`${theme.prefixClass}-doc-loading`}>
           <Spinner />
-        </DocLoadingBlock>
+        </div>
       );
   }
 };

@@ -1,2 +1,2 @@
-export { default as DefaultLayoutPlugin } from './DefaultLayoutPlugin';
+export { default as defaultLayoutPlugin } from './DefaultLayoutPlugin';
 export { default as ThumbnailIcon } from './ThumbnailIcon';

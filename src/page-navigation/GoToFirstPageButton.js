@@ -1,8 +1,8 @@
 import { useContext } from 'react';
 import UpArrowIcon from './UpArrowIcon';
-import { LocalizationContext, Tooltip, Position, Button } from '../core';
+import { Button, LocalizationContext, Position, Tooltip } from '../core';
 
-const TOOLTIP_OFFSET = { top: 8, left: 0 };
+const TOOLTIP_OFFSET = { left: 0, top: 8 };
 
 const GoToFirstPageButton = ({ onClick }) => {
   const l10n = useContext(LocalizationContext);

@@ -1,5 +1,5 @@
-import { useZoom } from '../hooks/useZoom';
 import ZoomPopover from './ZoomPopover';
+import { useZoom } from '../hooks/useZoom';
 
 const Zoom = ({ children, store }) => {
   const { scale } = useZoom(store);

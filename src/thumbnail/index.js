@@ -1,1 +1,1 @@
-export { default as ThumbnailPlugin } from './ThumbnailPlugin';
+export { default as thumbnailPlugin } from './ThumbnailPlugin';

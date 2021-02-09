@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { createStore } from '../core';
 import CurrentPageInput from './CurrentPageInput';
 import CurrentPageLabel from './CurrentPageLabel';
 import GoToFirstPage from './GoToFirstPage';
@@ -9,7 +10,6 @@ import GoToNextPage from './GoToNextPage';
 import GoToNextPageButton from './GoToNextPageButton';
 import GoToPreviousPage from './GoToPreviousPage';
 import GoToPreviousPageButton from './GoToPreviousPageButton';
-import { createStore } from '../core';
 
 const PageNavigationPlugin = () => {
   const store = useMemo(() => createStore(), []);

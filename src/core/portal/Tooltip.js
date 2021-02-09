@@ -1,4 +1,4 @@
-import React, { createRef } from 'react';
+import { createRef } from 'react';
 import { ToggleStatus } from '../../hooks/useToggle';
 import Portal from './Portal';
 import TooltipBody from './TooltipBody';

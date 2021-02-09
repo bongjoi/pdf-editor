@@ -1,1 +1,1 @@
-export { default as GetFilePlugin } from './GetFilePlugin';
+export { default as getFilePlugin } from './GetFilePlugin';

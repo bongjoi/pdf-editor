@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import NextIcon from './NextIcon';
-import { LocalizationContext, Tooltip, Position, Button } from '../core';
+import { Button, LocalizationContext, Position, Tooltip } from '../core';
 
 const TOOLTIP_OFFSET = { left: 0, top: 8 };
 

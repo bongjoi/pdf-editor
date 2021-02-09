@@ -3,7 +3,7 @@ import Position from '../portal/Position';
 const calculatePosition = (content, target, position, offset) => {
   const targetRect = target.getBoundingClientRect();
   const contentRect = content.getBoundingClientRect();
-  const { width, height } = contentRect;
+  const { height, width } = contentRect;
 
   let top = 0;
   let left = 0;

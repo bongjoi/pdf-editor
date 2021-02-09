@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import Inner from './layouts/Inner';
+import PageSizeCalculator from './layouts/PageSizeCalculator';
 import DocumentLoader from './loader/DocumentLoader';
 import LocalizationProvider from './localization/LocalizationProvider';
 import ThemeProvider from './theme/ThemeProvider';
-import PageSizeCalculator from './layouts/PageSizeCalculator';
-import Inner from './layouts/Inner';
-import { usePrevRef } from '../hooks/usePrevRef';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
+import { usePrevRef } from '../hooks/usePrevRef';
 
-const Editor = ({
+const Viewer = ({
   characterMap,
   defaultScale,
   fileUrl,
@@ -49,7 +49,7 @@ const Editor = ({
         shouldLoad: visible
       });
     }
-  }, [prevFile.data, fileUrl, visible]);
+  }, [fileUrl, visible]);
 
   const visibilityChanged = (params) => {
     setVisible(params.isVisible);
@@ -68,7 +68,14 @@ const Editor = ({
     <ThemeProvider prefixClass={prefixClass}>
       <LocalizationProvider localization={localization}>
         {(_) => (
-          <div ref={containerRef} style={{ width: '100%', height: '100%' }}>
+          <div
+            ref={containerRef}
+            data-testid="viewer"
+            style={{
+              height: '100%',
+              width: '100%'
+            }}
+          >
             {file.shouldLoad && (
               <DocumentLoader
                 characterMap={characterMap}
@@ -113,4 +120,4 @@ const Editor = ({
   );
 };
 
-export default Editor;
+export default Viewer;

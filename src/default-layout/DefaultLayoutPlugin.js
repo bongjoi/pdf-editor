@@ -1,37 +1,13 @@
 import { useMemo } from 'react';
-import styled from 'styled-components/macro';
 import Sidebar from './Sidebar';
 import { createStore } from '../core';
-import { ThumbnailPlugin } from '../thumbnail';
-import { ToolbarPlugin } from '../toolbar';
-
-const DefaultLayoutContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  width: 100%;
-  height: 100%;
-`;
-const DefaultLayoutToolbar = styled.div`
-  background-color: rgba(238, 238, 238);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 4px;
-`;
-const DefaultLayoutMain = styled.div`
-  display: flex;
-  flex-grow: 1;
-  overflow: hidden;
-`;
-const DefaultLayoutBody = styled.div`
-  flex: 1;
-  overflow: auto;
-`;
+import { thumbnailPlugin } from '../thumbnail';
+import { toolbarPlugin } from '../toolbar';
 
 const DefaultLayoutPlugin = (props) => {
   const store = useMemo(() => createStore({ currentTab: 0 }), []);
-  const thumbnailPluginInstance = ThumbnailPlugin();
-  const toolbarPluginInstance = ToolbarPlugin(props ? props.toolbarPlugin : {});
-
+  const thumbnailPluginInstance = thumbnailPlugin();
+  const toolbarPluginInstance = toolbarPlugin(props ? props.toolbarPlugin : {});
   const { Thumbnails } = thumbnailPluginInstance;
   const { Toolbar } = toolbarPluginInstance;
 
@@ -69,26 +45,26 @@ const DefaultLayoutPlugin = (props) => {
           : {};
 
       slot.children = (
-        <DefaultLayoutContainer>
-          <DefaultLayoutToolbar>
+        <div className="editor-default-layout-container">
+          <div className="editor-default-layout-toolbar">
             {props && props.renderToolbar ? (
               props.renderToolbar(Toolbar)
             ) : (
               <Toolbar />
             )}
-          </DefaultLayoutToolbar>
-          <DefaultLayoutMain>
+          </div>
+          <div className="editor-default-layout-main">
             <Sidebar
               store={store}
               thumbnailTabContent={<Thumbnails />}
               tabs={sidebarTabs}
             />
-            <DefaultLayoutBody {...mergeSubSlot}>
+            <div className="editor-default-layout-body" {...mergeSubSlot}>
               {slot.subSlot.children}
-            </DefaultLayoutBody>
-          </DefaultLayoutMain>
+            </div>
+          </div>
           {slot.children}
-        </DefaultLayoutContainer>
+        </div>
       );
 
       slot.subSlot.attrs = {};

@@ -1,42 +1,8 @@
 import { useContext, useState, useEffect } from 'react';
-import styled from 'styled-components/macro';
+import { Button, LocalizationContext, Position, Tooltip } from '../core';
 import ThumbnailIcon from './ThumbnailIcon';
-import { LocalizationContext, Position, Button, Tooltip } from '../core';
 
-const TOOLTIP_OFFSET = { top: 0, left: 8 };
-
-const DefaultLayoutSidebar = styled.div`
-  &.editor-default-layout-sidebar {
-    border-right: 1px solid rgba(0, 0, 0, 0.2);
-    &-opened {
-      width: 30%;
-    }
-    &-content {
-      padding: 8px 0;
-      display: none;
-      flex-grow: 1;
-      flex-shrink: 1;
-      overflow: auto;
-      &-opened {
-        display: flex;
-      }
-    }
-  }
-`;
-const DefaultLayoutSidebarTabs = styled.div`
-  display: flex;
-  width: 100%;
-  height: 100%;
-`;
-const DefaultLayoutSidebarHeaders = styled.div`
-  padding: 4px;
-  align-items: center;
-  background-color: rgb(238, 238, 238);
-  border-right: 1px solid rgba(0, 0, 0, 0.1);
-  .editor-default-layout-sidebar-header {
-    padding: 2px;
-  }
-`;
+const TOOLTIP_OFFSET = { left: 8, top: 0 };
 
 const Sidebar = ({ store, thumbnailTabContent, tabs }) => {
   const l10n = useContext(LocalizationContext);
@@ -75,13 +41,13 @@ const Sidebar = ({ store, thumbnailTabContent, tabs }) => {
   }, []);
 
   return (
-    <DefaultLayoutSidebar
+    <div
       className={`editor-default-layout-sidebar ${
         opened ? 'editor-default-layout-sidebar-opened' : ''
       }`}
     >
-      <DefaultLayoutSidebarTabs>
-        <DefaultLayoutSidebarHeaders>
+      <div className="editor-default-layout-sidebar-tabs">
+        <div className="editor-default-layout-sidebar-headers">
           {listTabs.map((tab, index) => (
             <div key={index} className="editor-default-layout-sidebar-header">
               <Tooltip
@@ -99,16 +65,16 @@ const Sidebar = ({ store, thumbnailTabContent, tabs }) => {
               />
             </div>
           ))}
-        </DefaultLayoutSidebarHeaders>
-      </DefaultLayoutSidebarTabs>
-      <div
-        className={`editor-default-layout-sidebar-content ${
-          opened ? 'editor-default-layout-sidebar-content-opened' : ''
-        }`}
-      >
-        {listTabs[currentTab].content}
+        </div>
+        <div
+          className={`editor-default-layout-sidebar-content ${
+            opened ? 'editor-default-layout-sidebar-content-opened' : ''
+          }`}
+        >
+          {listTabs[currentTab].content}
+        </div>
       </div>
-    </DefaultLayoutSidebar>
+    </div>
   );
 };
 

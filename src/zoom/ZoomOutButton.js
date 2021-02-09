@@ -1,6 +1,6 @@
 import { useContext } from 'react';
-import { Button, LocalizationContext, Position, Tooltip } from '../core';
 import ZoomOutIcon from './ZoomOutIcon';
+import { Button, LocalizationContext, Position, Tooltip } from '../core';
 
 const TOOLTIP_OFFSET = { left: 0, top: 8 };
 

@@ -1,37 +1,10 @@
-import styled from 'styled-components/macro';
-
-const ToobarBlock = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  .left {
-    display: flex;
-    align-items: center;
-  }
-  .center {
-    display: flex;
-    align-items: center;
-    flex-grow: 1;
-    flex-shrink: 1;
-    justify-content: center;
-  }
-  .right {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-  }
-  .item {
-    padding: 0 2px;
-  }
-`;
-
 const DefaultToolbar = (toolbarSlot) => {
   const {
     CurrentPageInput,
-    GoToFirstPage,
     GoToNextPage,
-    GoToPreviousPage,
     GoToLastPage,
+    GoToPreviousPage,
+    GoToFirstPage,
     NumberOfPages,
     Zoom,
     ZoomIn,
@@ -39,37 +12,37 @@ const DefaultToolbar = (toolbarSlot) => {
   } = toolbarSlot;
 
   return (
-    <ToobarBlock>
-      <div className="left">
-        <div className="item">
+    <div className="editor-toolbar">
+      <div className="editor-toolbar-left">
+        <div className="editor-toolbar-item">
           <GoToFirstPage />
         </div>
-        <div className="item">
+        <div className="editor-toolbar-item">
           <GoToPreviousPage />
         </div>
-        <div className="item">
+        <div className="editor-toolbar-item">
           <CurrentPageInput /> / <NumberOfPages />
         </div>
-        <div className="item">
+        <div className="editor-toolbar-item">
           <GoToNextPage />
         </div>
-        <div className="item">
+        <div className="editor-toolbar-item">
           <GoToLastPage />
         </div>
       </div>
-      <div className="center"></div>
-      <div className="right">
-        <div className="item">
+      <div className="editor-toolbar-center"></div>
+      <div className="editor-toolbar-right">
+        <div className="editor-toolbar-item">
           <ZoomOut />
         </div>
-        <div className="item">
+        <div className="editor-toolbar-item">
           <Zoom />
         </div>
-        <div className="item">
+        <div className="editor-toolbar-item">
           <ZoomIn />
         </div>
       </div>
-    </ToobarBlock>
+    </div>
   );
 };
 

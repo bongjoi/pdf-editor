@@ -12,9 +12,11 @@ const Popover = ({
   target
 }) => {
   const targetRef = createRef();
+
   const renderTarget = (toggle, opened) => (
     <div ref={targetRef}>{target(toggle, opened)}</div>
   );
+
   const renderContent = (toggle) => (
     <>
       <PopoverOverlay closeOnEscape={closeOnEscape} onClose={toggle} />

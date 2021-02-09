@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Spinner } from '../core';
 
 const ThumbnailItem = ({
@@ -6,8 +6,8 @@ const ThumbnailItem = ({
   pageWidth,
   pageHeight,
   rotation,
-  thumbnailWidth,
-  thumbnailHeight
+  thumbnailHeight,
+  thumbnailWidth
 }) => {
   const renderTask = useRef();
   const [src, setSrc] = useState('');
@@ -25,10 +25,10 @@ const ThumbnailItem = ({
     const h = w / (pageWidth / pageHeight);
     const scale = w / pageWidth;
 
-    canvas.width = w;
     canvas.height = h;
-    canvas.style.width = `${w}px`;
+    canvas.width = w;
     canvas.style.height = `${h}px`;
+    canvas.style.width = `${w}px`;
 
     const viewport = page.getViewport({ rotation, scale });
     renderTask.current = page.render({ canvasContext, viewport });

@@ -1,12 +1,10 @@
-import styled from 'styled-components/macro';
-const MenuList = styled.ul`
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-`;
+import { useContext } from 'react';
+import ThemeContext from '../theme/ThemeContext';
 
 const Menu = ({ children }) => {
-  return <MenuList>{children}</MenuList>;
+  const theme = useContext(ThemeContext);
+
+  return <ul className={`${theme.prefixClass}-menu`}>{children}</ul>;
 };
 
 export default Menu;

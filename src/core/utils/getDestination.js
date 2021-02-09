@@ -47,7 +47,7 @@ const getDestination = (doc, dest) => {
       }
     })
       .then((destArray) =>
-        typeof destArray[0] === 'object'
+        'object' === typeof destArray[0]
           ? doc
               .getPageIndex(destArray[0])
               .then((pageIndex) => Promise.resolve({ pageIndex, destArray }))
