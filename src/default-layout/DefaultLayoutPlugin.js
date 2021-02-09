@@ -1,8 +1,37 @@
 import { useMemo } from 'react';
+import styled from 'styled-components/macro';
 import Sidebar from './Sidebar';
 import { createStore } from '../core';
 import { thumbnailPlugin } from '../thumbnail';
 import { toolbarPlugin } from '../toolbar';
+
+const Div = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+
+  .editor-default-layout {
+    &-toolbar {
+      padding: 4px;
+      background-color: rgb(238, 238, 238);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    &-main {
+      display: flex;
+      flex-grow: 1;
+      overflow: hidden;
+    }
+
+    &-body {
+      flex: 1;
+      overflow: auto;
+    }
+  }
+`;
 
 const DefaultLayoutPlugin = (props) => {
   const store = useMemo(() => createStore({ currentTab: 0 }), []);
@@ -45,7 +74,7 @@ const DefaultLayoutPlugin = (props) => {
           : {};
 
       slot.children = (
-        <div className="editor-default-layout-container">
+        <Div className="editor-default-layout">
           <div className="editor-default-layout-toolbar">
             {props && props.renderToolbar ? (
               props.renderToolbar(Toolbar)
@@ -64,7 +93,7 @@ const DefaultLayoutPlugin = (props) => {
             </div>
           </div>
           {slot.children}
-        </div>
+        </Div>
       );
 
       slot.subSlot.attrs = {};

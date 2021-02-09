@@ -1,6 +1,14 @@
 import { useState } from 'react';
+import styled from 'styled-components/macro';
 import { useCurrentPage } from '../hooks/useCurrentPage';
 import { useNumberOfPages } from '../hooks/useNumberOfPages';
+
+const InputEl = styled.input`
+  padding: 4px;
+  width: 30px;
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+`;
 
 const CurrentPageInput = ({ store }) => {
   const [pageTextboxFocused, setPageTextboxFocused] = useState(false);
@@ -64,7 +72,7 @@ const CurrentPageInput = ({ store }) => {
   };
 
   return (
-    <input
+    <InputEl
       className="editor-current-page-input"
       type="text"
       value={pageTextboxFocused ? editingPage + 1 : currentPage + 1}

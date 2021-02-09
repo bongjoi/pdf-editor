@@ -1,7 +1,15 @@
 import { useContext, createRef, useRef } from 'react';
+import styled from 'styled-components/macro';
 import WithScale from './WithScale';
 import ThemeContext from '../theme/ThemeContext';
 import LayerRenderStatus from '../types/LayerRenderStatus';
+
+const Div = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+`;
 
 const CanvasLayer = ({
   height,
@@ -70,7 +78,7 @@ const CanvasLayer = ({
 
   return (
     <WithScale callback={renderCanvas} rotation={rotation} scale={scale}>
-      <div
+      <Div
         className={`${theme.prefixClass}-canvas-layer`}
         style={{
           height: `${height}px`,
@@ -84,7 +92,7 @@ const CanvasLayer = ({
             transformOrigin: `top left`
           }}
         />
-      </div>
+      </Div>
     </WithScale>
   );
 };

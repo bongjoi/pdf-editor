@@ -1,8 +1,39 @@
 import { useContext, createRef, useRef } from 'react';
+import styled from 'styled-components/macro';
 import WithScale from './WithScale';
 import ThemeContext from '../theme/ThemeContext';
 import LayerRenderStatus from '../types/LayerRenderStatus';
 import PdfJs from '../vendors/PdfJs';
+
+const Div = styled.div`
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  line-height: 1;
+
+  .editor-text {
+    position: absolute;
+    color: transparent;
+    opacity: 0.2;
+    transform-origin: 0% 0%;
+    white-space: pre;
+    cursor: text;
+
+    &::selection {
+      color: transparent;
+      background: rgb(0, 0, 255, 0.5);
+    }
+
+    &-highlight {
+      margin: -1px;
+      padding: 1px;
+      background-color: rgb(180, 0, 170);
+      border-radius: 4px;
+    }
+  }
+`;
 
 const TextLayer = ({ page, pageIndex, plugins, rotation, scale }) => {
   const theme = useContext(ThemeContext);
@@ -79,7 +110,7 @@ const TextLayer = ({ page, pageIndex, plugins, rotation, scale }) => {
 
   return (
     <WithScale callback={renderText} rotation={rotation} scale={scale}>
-      <div className={`${theme.prefixClass}-text-layer`} ref={containerRef} />
+      <Div className={`${theme.prefixClass}-text-layer`} ref={containerRef} />
     </WithScale>
   );
 };

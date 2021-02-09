@@ -8,7 +8,7 @@ const App = () => {
   return (
     <Worker workerUrl={workerUrl}>
       <Editor
-        fileUrl="http://localhost:3000/pdf.pdf"
+        fileUrl="http://localhost:3000/sample.pdf"
         plugins={[defaultLayoutPluginInstance]}
       />
     </Worker>

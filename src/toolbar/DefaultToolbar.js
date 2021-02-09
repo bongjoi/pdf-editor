@@ -1,3 +1,36 @@
+import styled from 'styled-components/macro';
+
+const Div = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  .editor-toolbar {
+    &-left {
+      display: flex;
+      align-items: center;
+    }
+
+    &-center {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-grow: 1;
+      flex-shrink: 1;
+    }
+
+    &-right {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+    }
+
+    &-item {
+      padding: 0px 2px;
+    }
+  }
+`;
+
 const DefaultToolbar = (toolbarSlot) => {
   const {
     CurrentPageInput,
@@ -12,7 +45,7 @@ const DefaultToolbar = (toolbarSlot) => {
   } = toolbarSlot;
 
   return (
-    <div className="editor-toolbar">
+    <Div className="editor-toolbar">
       <div className="editor-toolbar-left">
         <div className="editor-toolbar-item">
           <GoToFirstPage />
@@ -42,7 +75,7 @@ const DefaultToolbar = (toolbarSlot) => {
           <ZoomIn />
         </div>
       </div>
-    </div>
+    </Div>
   );
 };
 

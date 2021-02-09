@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import styled from 'styled-components/macro';
 import {
   LocalizationContext,
   Menu,
@@ -8,6 +9,26 @@ import {
   Position,
   SpecialZoomLevel
 } from '../core';
+
+const SpanEl = styled.span`
+  padding: 8px;
+  display: flex;
+  align-items: center;
+
+  .editor-zoom-popover-target {
+    &-scale {
+      margin-right: 4px;
+    }
+
+    &-arrow {
+      width: 0;
+      height: 0;
+      border-width: 8px 4px 0px;
+      border-style: solid;
+      border-color: rgba(0, 0, 0, 0.6) transparent transparent;
+    }
+  }
+`;
 
 const LEVELS = [0.75, 1, 1.25, 1.5];
 const PORTAL_OFFSET = { left: 0, top: 8 };
@@ -33,12 +54,12 @@ const ZoomPopover = ({ scale, onZoom }) => {
       toggle();
     };
     return (
-      <span className="editor-zoom-popover-target" onClick={click}>
+      <SpanEl className="editor-zoom-popover-target" onClick={click}>
         <span className="editor-zoom-popover-target-scale">
           {Math.round(scale * 100)}%
         </span>
         <span className="editor-zoom-popover-target-arrow" />
-      </span>
+      </SpanEl>
     );
   };
 

@@ -1,4 +1,5 @@
 import { useContext, useState, useEffect } from 'react';
+import styled from 'styled-components/macro';
 import AskForPasswordState from './AskForPasswordState';
 import AskingPassword from './AskingPassword';
 import CompletedState from './CompletedState';
@@ -10,6 +11,32 @@ import Spinner from '../components/Spinner';
 import ThemeContext from '../theme/ThemeContext';
 import PdfJs from '../vendors/PdfJs';
 import { useIsMounted } from '../../hooks/useIsMounted';
+
+const ErrorDiv = styled.div`
+  &.editor-doc-error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+
+    &-text {
+      padding: 0.5rem;
+      max-width: 50%;
+      color: #fff;
+      line-height: 1.5;
+      background-color: #e53e3e;
+      border-radius: 0.25rem;
+    }
+  }
+`;
+
+const LoadingDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
 
 const DocumentLoader = ({
   characterMap,
@@ -102,23 +129,23 @@ const DocumentLoader = ({
       return renderError ? (
         renderError(status.error)
       ) : (
-        <div className={`${theme.prefixClass}-doc-error`}>
+        <ErrorDiv className={`${theme.prefixClass}-doc-error`}>
           <div className={`${theme.prefixClass}-doc-error-text`}>
             {status.error.message}
           </div>
-        </div>
+        </ErrorDiv>
       );
     case status instanceof LoadingState:
       return (
-        <div className={`${theme.prefixClass}-doc-loading`}>
+        <LoadingDiv className={`${theme.prefixClass}-doc-loading`}>
           {renderLoader ? renderLoader(status.percentages) : <Spinner />}
-        </div>
+        </LoadingDiv>
       );
     default:
       return (
-        <div className={`${theme.prefixClass}-doc-loading`}>
+        <LoadingDiv className={`${theme.prefixClass}-doc-loading`}>
           <Spinner />
-        </div>
+        </LoadingDiv>
       );
   }
 };

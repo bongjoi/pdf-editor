@@ -1,4 +1,5 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
+import styled from 'styled-components/macro';
 import CanvasLayer from './CanvasLayer';
 import SvgLayer from './SvgLayer';
 import TextLayer from './TextLayer';
@@ -7,6 +8,15 @@ import { useIntersectionObserver } from '../../hooks/useIntersectionObserver';
 import ThemeContext from '../theme/ThemeContext';
 
 const NUMBER_OF_OVERSCAN_PAGES = 2;
+
+const Div = styled.div`
+  margin: 0px auto;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.2);
+`;
 
 const PageLayer = ({
   currentPage,
@@ -93,7 +103,7 @@ const PageLayer = ({
   }, [currentPage]);
 
   return (
-    <div
+    <Div
       ref={containerRef}
       className={`${theme.prefixClass}-page-layer`}
       data-testid={`viewer-page-layer-${pageIndex}`}
@@ -170,7 +180,7 @@ const PageLayer = ({
           )}
         </>
       )}
-    </div>
+    </Div>
   );
 };
 

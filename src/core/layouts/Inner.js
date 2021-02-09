@@ -1,4 +1,5 @@
 import { useContext, useRef, useState, useEffect } from 'react';
+import styled from 'styled-components/macro';
 import PageLayer from '../layers/PageLayer';
 import SpecialZoomLevel from '../SpecialZoomLevel';
 import ThemeContext from '../theme/ThemeContext';
@@ -6,6 +7,11 @@ import getFileExt from '../utils/fileExt';
 
 const SCROLL_BAR_WIDTH = 17;
 const PAGE_PADDING = 8;
+
+const Div = styled.div`
+  padding: 8px;
+  background-color: #fff;
+`;
 
 const Inner = ({
   defaultScale,
@@ -304,7 +310,7 @@ const Inner = ({
               .fill(0)
               .map((_, index) => {
                 return (
-                  <div
+                  <Div
                     className={`${theme.prefixClass}-inner-page`}
                     key={`pagelayer-${index}`}
                     ref={(ref) => {
@@ -325,7 +331,7 @@ const Inner = ({
                       onJumpToDest={jumpToDestination}
                       onPageVisibilityChanged={pageVisibilityChanged}
                     />
-                  </div>
+                  </Div>
                 );
               })}
           </>

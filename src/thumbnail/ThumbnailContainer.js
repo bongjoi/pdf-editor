@@ -1,9 +1,19 @@
 import { useState } from 'react';
+import styled from 'styled-components/macro';
 import ThumbnailItem from './ThumbnailItem';
 import { Spinner } from '../core';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 
 const THUMBNAIL_WIDTH = 100;
+
+const Div = styled.div`
+  margin: 0px auto;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 8px 0px;
+`;
 
 const ThumbnailContainer = ({
   doc,
@@ -49,7 +59,7 @@ const ThumbnailContainer = ({
   });
 
   return (
-    <div
+    <Div
       className="editor-thumbnail-container"
       ref={containerRef}
       style={{
@@ -69,7 +79,7 @@ const ThumbnailContainer = ({
           thumbnailWidth={w}
         />
       )}
-    </div>
+    </Div>
   );
 };
 
