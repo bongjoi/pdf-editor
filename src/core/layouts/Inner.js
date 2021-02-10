@@ -10,7 +10,7 @@ const PAGE_PADDING = 8;
 
 const Div = styled.div`
   padding: 8px;
-  background-color: #fff;
+  background: #fff;
 `;
 
 const Inner = ({
@@ -299,9 +299,9 @@ const Inner = ({
         attrs: {
           ref: pagesRef,
           style: {
+            position: 'relative',
             height: '100%',
-            overflow: 'auto',
-            position: 'relative'
+            overflow: 'auto'
           }
         },
         children: (

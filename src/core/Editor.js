@@ -7,7 +7,7 @@ import ThemeProvider from './theme/ThemeProvider';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { usePrevRef } from '../hooks/usePrevRef';
 
-const Viewer = ({
+const Editor = ({
   characterMap,
   defaultScale,
   fileUrl,
@@ -70,10 +70,9 @@ const Viewer = ({
         {(_) => (
           <div
             ref={containerRef}
-            data-testid="viewer"
             style={{
-              height: '100%',
-              width: '100%'
+              width: '100%',
+              height: '100%'
             }}
           >
             {file.shouldLoad && (
@@ -95,8 +94,8 @@ const Viewer = ({
                         viewerState={{
                           file,
                           pageIndex: initialPage,
-                          pageHeight: ps.pageHeight,
                           pageWidth: ps.pageWidth,
+                          pageHeight: ps.pageHeight,
                           rotation: 0,
                           scale: ps.scale
                         }}
@@ -120,4 +119,4 @@ const Viewer = ({
   );
 };
 
-export default Viewer;
+export default Editor;

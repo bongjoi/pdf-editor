@@ -3,10 +3,6 @@ import styled from 'styled-components/macro';
 import { classNames } from '../core';
 
 const Div = styled.div`
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-
   .editor-thumbnail-item {
     padding: 8px;
     cursor: pointer;

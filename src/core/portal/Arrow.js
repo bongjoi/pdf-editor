@@ -14,7 +14,7 @@ const ArrowEl = styled.div`
   border-left-color: rgba(0, 0, 0, 0.3);
   z-index: 0;
 
-  .editor-arrow {
+  &.editor-arrow {
     &-tl {
       bottom: 0;
       left: 0;
@@ -110,7 +110,7 @@ const Arrow = ({ customClassName, position }) => {
         [`${theme.prefixClass}-arrow-lb`]: position === Position.LeftBottom,
         [`${customClassName}`]: customClassName !== ''
       })}
-    ></ArrowEl>
+    />
   );
 };
 

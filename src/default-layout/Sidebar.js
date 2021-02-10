@@ -1,18 +1,23 @@
-import { useContext, useState, useEffect } from 'react';
+import {
+  // useContext,
+  useState,
+  useEffect
+} from 'react';
 import styled from 'styled-components/macro';
-import { Button, LocalizationContext, Position, Tooltip } from '../core';
+import {
+  Button
+  // LocalizationContext,
+  // Position,
+  // Tooltip
+} from '../core';
 import ThumbnailIcon from './ThumbnailIcon';
 
-const TOOLTIP_OFFSET = { left: 8, top: 0 };
+// const TOOLTIP_OFFSET = { left: 8, top: 0 };
 
 const Div = styled.div`
   border-right: 1px solid rgba(0, 0, 0, 0.2);
 
   .editor-default-layout-sidebar {
-    &-opened {
-      width: 30%;
-    }
-
     &-tabs {
       display: flex;
       width: 100%;
@@ -31,33 +36,31 @@ const Div = styled.div`
     }
 
     &-content {
-      padding: 8px 0;
+      padding: 8px;
       display: none;
-      flex-grow: 1;
-      flex-shrink: 1;
       overflow: auto;
 
       &-opened {
-        display: flex;
+        display: block;
       }
     }
   }
 `;
 
 const Sidebar = ({ store, thumbnailTabContent, tabs }) => {
-  const l10n = useContext(LocalizationContext);
+  // const l10n = useContext(LocalizationContext);
   const [opened, setOpened] = useState(false);
   const [currentTab, setCurrentTab] = useState(store.get('currentTab') || 0);
 
   const defaultTabs = [
     {
       content: thumbnailTabContent,
-      icon: <ThumbnailIcon />,
-      title: (
-        <>
-          {l10n && l10n.defaultLayout ? l10n.defaultLayout.thumbnail : '썸네일'}
-        </>
-      )
+      icon: <ThumbnailIcon />
+      // title: (
+      //   <>
+      //     {l10n && l10n.defaultLayout ? l10n.defaultLayout.thumbnail : '썸네일'}
+      //   </>
+      // )
     }
   ];
 
@@ -90,7 +93,7 @@ const Sidebar = ({ store, thumbnailTabContent, tabs }) => {
         <div className="editor-default-layout-sidebar-headers">
           {listTabs.map((tab, index) => (
             <div key={index} className="editor-default-layout-sidebar-header">
-              <Tooltip
+              {/* <Tooltip
                 position={Position.RightCenter}
                 target={
                   <Button
@@ -102,7 +105,13 @@ const Sidebar = ({ store, thumbnailTabContent, tabs }) => {
                 }
                 content={() => tab.title}
                 offset={TOOLTIP_OFFSET}
-              />
+              /> */}
+              <Button
+                onClick={() => switchToTab(index)}
+                isSelected={currentTab === index}
+              >
+                {tab.icon}
+              </Button>
             </div>
           ))}
         </div>

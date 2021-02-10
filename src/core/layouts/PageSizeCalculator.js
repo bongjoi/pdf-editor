@@ -2,7 +2,7 @@ import { useContext, useRef, useState, useEffect } from 'react';
 import styled from 'styled-components/macro';
 import Spinner from '../components/Spinner';
 import ThemeContext from '../theme/ThemeContext';
-import { decrease } from '../zoom/zoomingLevel';
+// import { decrease } from '../zoom/zoomingLevel';
 
 const Div = styled.div`
   display: flex;
@@ -14,10 +14,10 @@ const Div = styled.div`
 
 const PageSizeCalculator = ({ doc, render }) => {
   const theme = useContext(ThemeContext);
-  const pagesRef = useRef();
+  const pagesRef = useRef(null);
   const [pageSize, setPageSize] = useState({
-    pageHeight: 0,
     pageWidth: 0,
+    pageHeight: 0,
     scale: 1
   });
 
@@ -32,13 +32,13 @@ const PageSizeCalculator = ({ doc, render }) => {
         return;
       }
 
-      const scaled = (pagesEle.clientWidth - 2 * 50) / w;
-      const scale = decrease(Math.max(1, scaled));
+      // const scaled = (pagesEle.clientWidth - 2 * 50) / w;
+      // const scale = decrease(Math.max(1, scaled));
 
       setPageSize({
-        pageHeight: h,
         pageWidth: w,
-        scale
+        pageHeight: h,
+        scale: 1
       });
     });
   }, [doc]);
