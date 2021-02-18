@@ -1,5 +1,5 @@
 import React, { useMemo, useCallback, useRef, useReducer } from 'react';
-import reducer, { initialPannableState } from './pannableReducer';
+import reducer, { initialPannableState } from '../reducers/pannableReducer';
 import { useIsomorphicLayoutEffect } from '../hooks/useIsomorphicLayoutEffect';
 import { usePrevRef } from '../hooks/usePrevRef';
 import { create } from '../utils/StyleSheet';
@@ -17,17 +17,16 @@ const defaultPannableProps = {
   onCancel: () => {}
 };
 
-function Pannable(props) {
-  const {
-    enabled,
-    shouldStart,
-    onStart,
-    onMove,
-    onEnd,
-    onCancel,
-    children,
-    ...divProps
-  } = props;
+function Pannable({
+  enabled,
+  shouldStart,
+  onStart,
+  onMove,
+  onEnd,
+  onCancel,
+  children,
+  ...divProps
+}) {
   const [state, dispatch] = useReducer(reducer, initialPannableState);
   const prevState = usePrevRef(state);
   const elemRef = useRef(null);

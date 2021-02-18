@@ -12,7 +12,7 @@ import GoToPreviousPage from './GoToPreviousPage';
 import GoToPreviousPageButton from './GoToPreviousPageButton';
 
 const PageNavigationPlugin = () => {
-  const store = useMemo(() => createStore(), []);
+  const store = useMemo(() => createStore({}), []);
 
   const CurrentPageInputDecorator = () => <CurrentPageInput store={store} />;
 
