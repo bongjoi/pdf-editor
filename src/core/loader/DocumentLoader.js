@@ -93,18 +93,20 @@ const DocumentLoader = ({
           )
         : isMounted.current && setPercentages(100);
     };
-    loadingTask.promise.then(
-      (doc) => isMounted.current && setLoadedDocument(doc),
-      (err) =>
-        isMounted.current &&
-        !worker.destroyed &&
-        setStatus(
-          new FailureState({
-            message: err.message || 'Cannot load document',
-            name: err.name
-          })
-        )
-    );
+    loadingTask.promise
+      .then(
+        (doc) => isMounted.current && setLoadedDocument(doc),
+        (err) =>
+          isMounted.current &&
+          !worker.destroyed &&
+          setStatus(
+            new FailureState({
+              message: err.message || 'Cannot load document',
+              name: err.name
+            })
+          )
+      )
+      .catch((err) => console.log(err));
 
     return () => {
       loadingTask.destroy();

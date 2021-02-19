@@ -57,23 +57,25 @@ const CanvasLayer = ({
       scale: scale * devicePixelRatio
     });
     renderTask.current = page.render({ canvasContext, viewport });
-    renderTask.current.promise.then(
-      () => {
-        canvasEle.style.removeProperty('opacity');
-        plugins.forEach((plugin) => {
-          if (plugin.onCanvasLayerRender) {
-            plugin.onCanvasLayerRender({
-              ele: canvasEle,
-              pageIndex,
-              rotation,
-              scale,
-              status: LayerRenderStatus.DidRender
-            });
-          }
-        });
-      },
-      () => {}
-    );
+    renderTask.current.promise
+      .then(
+        () => {
+          canvasEle.style.removeProperty('opacity');
+          plugins.forEach((plugin) => {
+            if (plugin.onCanvasLayerRender) {
+              plugin.onCanvasLayerRender({
+                ele: canvasEle,
+                pageIndex,
+                rotation,
+                scale,
+                status: LayerRenderStatus.DidRender
+              });
+            }
+          });
+        },
+        () => {}
+      )
+      .catch((err) => console.log(err));
   };
 
   return (

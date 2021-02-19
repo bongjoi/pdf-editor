@@ -16,8 +16,8 @@ const ThumbnailPlugin = () => {
     },
     onViewerStateChange: (viewerState) => {
       store.update('currentPage', viewerState.pageIndex);
-      store.update('pageHeight', viewerState.pageHeight);
       store.update('pageWidth', viewerState.pageWidth);
+      store.update('pageHeight', viewerState.pageHeight);
       return viewerState;
     },
     Thumbnails: ThumbnailsDecorator

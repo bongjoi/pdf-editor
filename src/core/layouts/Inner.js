@@ -126,9 +126,11 @@ const Inner = ({
         const bytes = new Uint8Array(reader.result);
         resolve(bytes);
       };
-    }).then((data) => {
-      onOpenFile(file.name, data);
-    });
+    })
+      .then((data) => {
+        onOpenFile(file.name, data);
+      })
+      .catch((err) => console.log(err));
   };
 
   const rotate = (updateRotation) => {

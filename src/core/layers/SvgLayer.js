@@ -19,16 +19,19 @@ const SvgLayer = ({ height, page, rotation, scale, width }) => {
     const containerEle = containerRef.current;
     const viewport = page.getViewport({ rotation, scale });
 
-    page.getOperatorList().then((operatorList) => {
-      empty();
-      const graphic = new PdfJs.SVGGraphics(page.commonObjs, page.objs);
-      graphic.getSVG(operatorList, viewport).then((svg) => {
-        svg.style.height = `${height}px`;
-        svg.style.width = `${width}px`;
+    page
+      .getOperatorList()
+      .then((operatorList) => {
+        empty();
+        const graphic = new PdfJs.SVGGraphics(page.commonObjs, page.objs);
+        graphic.getSVG(operatorList, viewport).then((svg) => {
+          svg.style.height = `${height}px`;
+          svg.style.width = `${width}px`;
 
-        containerEle.appendChild(svg);
-      });
-    });
+          containerEle.appendChild(svg);
+        });
+      })
+      .catch((err) => console.log(err));
   };
 
   return (

@@ -29,16 +29,18 @@ const PageThumbnail = ({ page, pageHeight, pageWidth, rotation, onLoad }) => {
       transform: [printUnit, 0, 0, printUnit, 0, 0],
       viewport
     });
-    renderTask.current.promise.then(
-      () => {
-        'toBlob' in canvas
-          ? canvas.toBlob((blob) => {
-              setSrc(URL.createObjectURL(blob));
-            })
-          : setSrc(canvas.toDataURL());
-      },
-      () => {}
-    );
+    renderTask.current.promise
+      .then(
+        () => {
+          'toBlob' in canvas
+            ? canvas.toBlob((blob) => {
+                setSrc(URL.createObjectURL(blob));
+              })
+            : setSrc(canvas.toDataURL());
+        },
+        () => {}
+      )
+      .catch((err) => console.log(err));
   }, []);
 
   return !src ? (

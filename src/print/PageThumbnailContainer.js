@@ -20,16 +20,19 @@ const PageThumbnailContainer = ({
   const isVertical = Math.abs(rotation) % 180 === 0;
 
   useEffect(() => {
-    doc.getPage(pageIndex + 1).then((pdfPage) => {
-      const viewport = pdfPage.getViewport({ scale: 1 });
+    doc
+      .getPage(pageIndex + 1)
+      .then((pdfPage) => {
+        const viewport = pdfPage.getViewport({ scale: 1 });
 
-      setPageSize({
-        width: viewport.width,
-        height: viewport.height,
-        page: pdfPage,
-        viewportRotation: viewport.rotation
-      });
-    });
+        setPageSize({
+          width: viewport.width,
+          height: viewport.height,
+          page: pdfPage,
+          viewportRotation: viewport.rotation
+        });
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   const rotationNumber = (rotation + pageSize.viewportRotation) % 360;

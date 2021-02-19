@@ -38,17 +38,20 @@ const ThumbnailContainer = ({
 
   const onVisibilityChanged = (params) => {
     if (params.isVisible && !isCalculated) {
-      doc.getPage(pageIndex + 1).then((pdfPage) => {
-        const viewport = pdfPage.getViewport({ scale: 1 });
+      doc
+        .getPage(pageIndex + 1)
+        .then((pdfPage) => {
+          const viewport = pdfPage.getViewport({ scale: 1 });
 
-        setPageSize({
-          width: viewport.width,
-          height: viewport.height,
-          isCalculated: true,
-          page: pdfPage,
-          viewportRotation: viewport.rotation
-        });
-      });
+          setPageSize({
+            width: viewport.width,
+            height: viewport.height,
+            isCalculated: true,
+            page: pdfPage,
+            viewportRotation: viewport.rotation
+          });
+        })
+        .catch((err) => console.log(err));
     }
   };
 

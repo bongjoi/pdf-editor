@@ -39,9 +39,12 @@ const getDestination = (doc, dest) => {
   return new Promise((res) => {
     new Promise((resolve) => {
       if (typeof dest === 'string') {
-        doc.getDestination(dest).then((destArray) => {
-          resolve(destArray);
-        });
+        doc
+          .getDestination(dest)
+          .then((destArray) => {
+            resolve(destArray);
+          })
+          .catch((err) => console.log(err));
       } else {
         resolve(dest);
       }
@@ -59,7 +62,8 @@ const getDestination = (doc, dest) => {
       .then(({ pageIndex, destArray }) => {
         const target = parse(pageIndex, destArray);
         res(target);
-      });
+      })
+      .catch((err) => console.log(err));
   });
 };
 

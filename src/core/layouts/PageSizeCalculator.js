@@ -2,7 +2,6 @@ import { useContext, useRef, useState, useEffect } from 'react';
 import styled from 'styled-components/macro';
 import Spinner from '../components/Spinner';
 import ThemeContext from '../theme/ThemeContext';
-// import { decrease } from '../zoom/zoomingLevel';
 
 const Div = styled.div`
   display: flex;
@@ -22,25 +21,25 @@ const PageSizeCalculator = ({ doc, render }) => {
   });
 
   useEffect(() => {
-    doc.getPage(1).then((pdfPage) => {
-      const viewport = pdfPage.getViewport({ scale: 1 });
-      const w = viewport.width;
-      const h = viewport.height;
+    doc
+      .getPage(1)
+      .then((pdfPage) => {
+        const viewport = pdfPage.getViewport({ scale: 1 });
+        const w = viewport.width;
+        const h = viewport.height;
 
-      const pagesEle = pagesRef.current;
-      if (!pagesEle) {
-        return;
-      }
+        const pagesEle = pagesRef.current;
+        if (!pagesEle) {
+          return;
+        }
 
-      // const scaled = (pagesEle.clientWidth - 2 * 50) / w;
-      // const scale = decrease(Math.max(1, scaled));
-
-      setPageSize({
-        pageWidth: w,
-        pageHeight: h,
-        scale: 1
-      });
-    });
+        setPageSize({
+          pageWidth: w,
+          pageHeight: h,
+          scale: 1
+        });
+      })
+      .catch((err) => console.log(err));
   }, [doc]);
 
   const { pageWidth } = pageSize;

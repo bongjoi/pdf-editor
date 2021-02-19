@@ -32,10 +32,12 @@ const ThumbnailItem = ({
 
     const viewport = page.getViewport({ rotation, scale });
     renderTask.current = page.render({ canvasContext, viewport });
-    renderTask.current.promise.then(
-      () => setSrc(canvas.toDataURL()),
-      () => {}
-    );
+    renderTask.current.promise
+      .then(
+        () => setSrc(canvas.toDataURL()),
+        () => {}
+      )
+      .catch((err) => console.log(err));
   }, [rotation]);
 
   return !src ? (

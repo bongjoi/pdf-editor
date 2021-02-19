@@ -77,35 +77,38 @@ const TextLayer = ({ page, pageIndex, plugins, rotation, scale }) => {
         });
       }
     });
-    page.getTextContent().then((textContent) => {
-      empty();
-      renderTask.current = PdfJs.renderTextLayer({
-        container: containerEle,
-        textContent,
-        viewport
-      });
-      renderTask.current.promise.then(
-        () => {
-          const spans = containerEle.childNodes;
-          const numSpans = spans.length;
-          for (let i = 0; i < numSpans; i++) {
-            const span = spans[i];
-            span.classList.add(`${theme.prefixClass}-text`);
-          }
-          plugins.forEach((plugin) => {
-            if (plugin.onTextLayerRender) {
-              plugin.onTextLayerRender({
-                ele: containerEle,
-                pageIndex,
-                scale,
-                status: LayerRenderStatus.DidRender
-              });
+    page
+      .getTextContent()
+      .then((textContent) => {
+        empty();
+        renderTask.current = PdfJs.renderTextLayer({
+          container: containerEle,
+          textContent,
+          viewport
+        });
+        renderTask.current.promise.then(
+          () => {
+            const spans = containerEle.childNodes;
+            const numSpans = spans.length;
+            for (let i = 0; i < numSpans; i++) {
+              const span = spans[i];
+              span.classList.add(`${theme.prefixClass}-text`);
             }
-          });
-        },
-        () => {}
-      );
-    });
+            plugins.forEach((plugin) => {
+              if (plugin.onTextLayerRender) {
+                plugin.onTextLayerRender({
+                  ele: containerEle,
+                  pageIndex,
+                  scale,
+                  status: LayerRenderStatus.DidRender
+                });
+              }
+            });
+          },
+          () => {}
+        );
+      })
+      .catch((err) => console.log(err));
   };
 
   return (

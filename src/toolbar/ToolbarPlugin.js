@@ -1,12 +1,18 @@
 import Toolbar from './Toolbar';
 import { pageNavigationPlugin } from '../page-navigation';
 import { zoomPlugin } from '../zoom';
+import { addLayerPlugin } from '../add-layer';
 
-const ToolbarPlugin = (props) => {
+const ToolbarPlugin = () => {
   const pageNavigationPluginInstance = pageNavigationPlugin();
   const zoomPluginInstance = zoomPlugin();
+  const addLayerPluginInstance = addLayerPlugin();
 
-  const plugins = [pageNavigationPluginInstance, zoomPluginInstance];
+  const plugins = [
+    pageNavigationPluginInstance,
+    zoomPluginInstance,
+    addLayerPluginInstance
+  ];
 
   const ToolbarDecorator = (props) => {
     const {
@@ -18,6 +24,12 @@ const ToolbarPlugin = (props) => {
       GoToPreviousPage
     } = pageNavigationPluginInstance;
     const { CurrentScale, Zoom, ZoomIn, ZoomOut } = zoomPluginInstance;
+    const {
+      AddTextLayer,
+      AddSignatureLayer,
+      AddCheckLayer,
+      AddImageLayer
+    } = addLayerPluginInstance;
 
     const NumberOfPages = () => (
       <CurrentPageLabel>
@@ -37,6 +49,10 @@ const ToolbarPlugin = (props) => {
           GoToNextPage,
           GoToPreviousPage,
           NumberOfPages,
+          AddTextLayer,
+          AddSignatureLayer,
+          AddCheckLayer,
+          AddImageLayer,
           Zoom,
           ZoomIn,
           ZoomOut
@@ -48,6 +64,7 @@ const ToolbarPlugin = (props) => {
   return {
     pageNavigationPluginInstance,
     zoomPluginInstance,
+    addLayerPluginInstance,
     install: (pluginFunctions) => {
       plugins.forEach((plugin) => {
         if (plugin.install) {
