@@ -83,8 +83,8 @@ const CanvasLayer = ({
       <Div
         className={`${theme.prefixClass}-canvas-layer`}
         style={{
-          height: `${height}px`,
-          width: `${width}px`
+          width: `${width}px`,
+          height: `${height}px`
         }}
       >
         <canvas

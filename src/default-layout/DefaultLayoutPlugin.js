@@ -115,6 +115,13 @@ const DefaultLayoutPlugin = (props) => {
         }
       });
     },
+    onCanvasLayerRender: (props) => {
+      plugins.forEach((plugin) => {
+        if (plugin.onCanvasLayerRender) {
+          plugin.onCanvasLayerRender(props);
+        }
+      });
+    },
     onTextLayerRender: (props) => {
       plugins.forEach((plugin) => {
         if (plugin.onTextLayerRender) {

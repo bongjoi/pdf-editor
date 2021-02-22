@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import AddTextLayerButton from './AddTextLayerButton';
 
 const AddTextLayer = ({ children, store }) => {
