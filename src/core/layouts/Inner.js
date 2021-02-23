@@ -6,10 +6,10 @@ import ThemeContext from '../theme/ThemeContext';
 import getFileExt from '../utils/fileExt';
 
 const SCROLL_BAR_WIDTH = 17;
-const PAGE_PADDING = 8;
+const PAGE_PADDING = 20;
 
 const Div = styled.div`
-  padding: 8px;
+  padding: 20px;
   background: #fff;
 `;
 

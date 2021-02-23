@@ -1,18 +1,7 @@
-import {
-  // useContext,
-  useState,
-  useEffect
-} from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components/macro';
-import {
-  Button
-  // LocalizationContext,
-  // Position,
-  // Tooltip
-} from '../core';
+import { Button } from '../core';
 import ThumbnailIcon from './ThumbnailIcon';
-
-// const TOOLTIP_OFFSET = { left: 8, top: 0 };
 
 const Div = styled.div`
   border-right: 1px solid rgba(0, 0, 0, 0.2);
@@ -48,7 +37,6 @@ const Div = styled.div`
 `;
 
 const Sidebar = ({ store, thumbnailTabContent, tabs }) => {
-  // const l10n = useContext(LocalizationContext);
   const [opened, setOpened] = useState(false);
   const [currentTab, setCurrentTab] = useState(store.get('currentTab') || 0);
 
@@ -56,11 +44,6 @@ const Sidebar = ({ store, thumbnailTabContent, tabs }) => {
     {
       content: thumbnailTabContent,
       icon: <ThumbnailIcon />
-      // title: (
-      //   <>
-      //     {l10n && l10n.defaultLayout ? l10n.defaultLayout.thumbnail : '썸네일'}
-      //   </>
-      // )
     }
   ];
 
@@ -93,19 +76,6 @@ const Sidebar = ({ store, thumbnailTabContent, tabs }) => {
         <div className="editor-default-layout-sidebar-headers">
           {listTabs.map((tab, index) => (
             <div key={index} className="editor-default-layout-sidebar-header">
-              {/* <Tooltip
-                position={Position.RightCenter}
-                target={
-                  <Button
-                    onClick={() => switchToTab(index)}
-                    isSelected={currentTab === index}
-                  >
-                    {tab.icon}
-                  </Button>
-                }
-                content={() => tab.title}
-                offset={TOOLTIP_OFFSET}
-              /> */}
               <Button
                 onClick={() => switchToTab(index)}
                 isSelected={currentTab === index}

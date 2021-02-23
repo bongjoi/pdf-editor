@@ -7,11 +7,12 @@ import PdfJs from '../vendors/PdfJs';
 
 const Div = styled.div`
   position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
+  top: 50%;
+  left: 50%;
+  width: calc(100% - 20px);
+  height: calc(100% - 20px);
   line-height: 1;
+  transform: translate(-50%, -50%);
 
   .editor-text {
     position: absolute;

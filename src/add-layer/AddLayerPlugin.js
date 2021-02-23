@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import { Stage, Layer } from 'react-konva';
 import AddTextLayer from './AddTextLayer';
 import AddSignatureLayer from './AddSignatureLayer';
 import AddCheckLayer from './AddCheckLayer';
@@ -25,35 +24,11 @@ const AddLayerPlugin = () => {
     <AddImageLayer {...props} store={store} />
   );
 
-  const renderViewer = (props) => {
-    const currentSlot = props.slot;
-    if (currentSlot.subSlot && currentSlot.subSlot.children) {
-      currentSlot.subSlot.children = (
-        <>
-          <Stage>
-            <Layer />
-          </Stage>
-          {currentSlot.subSlot.children}
-        </>
-      );
-    }
-
-    return currentSlot;
-  };
-
   return {
-    install: (pluginFunctions) => {
-      store.update('getPageElement', pluginFunctions.getPageElement);
-    },
-    onViewerStateChange: (viewerState) => {
-      store.update('currentPage', viewerState.pageIndex);
-      return viewerState;
-    },
     AddTextLayer: AddTextLayerDecorator,
     AddSignatureLayer: AddSignatureLayerDecorator,
     AddCheckLayer: AddCheckLayerDecorator,
-    AddImageLayer: AddImageLayerDecorator,
-    renderViewer
+    AddImageLayer: AddImageLayerDecorator
   };
 };
 

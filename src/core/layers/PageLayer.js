@@ -6,6 +6,7 @@ import TextLayer from './TextLayer';
 import Spinner from '../components/Spinner';
 import { useIntersectionObserver } from '../../hooks/useIntersectionObserver';
 import ThemeContext from '../theme/ThemeContext';
+import classNames from '../utils/classNames';
 
 const NUMBER_OF_OVERSCAN_PAGES = 2;
 
@@ -15,7 +16,10 @@ const Div = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.2);
+
+  &.editor-page-layer-selected {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
 `;
 
 const PageLayer = ({
@@ -108,11 +112,14 @@ const PageLayer = ({
   return (
     <Div
       ref={containerRef}
-      className={`${theme.prefixClass}-page-layer`}
+      className={classNames({
+        [`${theme.prefixClass}-page-layer`]: true,
+        [`${theme.prefixClass}-page-layer-selected`]: currentPage === pageIndex
+      })}
       data-testid={`viewer-page-layer-${pageIndex}`}
       style={{
-        height: `${h}px`,
-        width: `${w}px`
+        width: `${w}px`,
+        height: `${h}px`
       }}
     >
       {!page ? (

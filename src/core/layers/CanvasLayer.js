@@ -6,9 +6,11 @@ import LayerRenderStatus from '../types/LayerRenderStatus';
 
 const Div = styled.div`
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   overflow: hidden;
+  box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.2);
 `;
 
 const CanvasLayer = ({
@@ -83,8 +85,8 @@ const CanvasLayer = ({
       <Div
         className={`${theme.prefixClass}-canvas-layer`}
         style={{
-          width: `${width}px`,
-          height: `${height}px`
+          width: `${width - 20}px`,
+          height: `${height - 20}px`
         }}
       >
         <canvas
